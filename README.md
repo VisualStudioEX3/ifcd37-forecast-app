@@ -1,2 +1,2 @@
-# ifcd37_android_kotlin_weather_app
-Final project for IFCD37 certification course.
+# IFCD37 Weather App
+Final project for **IFCD37: App development for mobile devices** certification course, developed for **Android** using **Kotlin**.
