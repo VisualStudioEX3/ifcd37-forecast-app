@@ -1,28 +1,29 @@
-package org.example.aemet.models.data
+package org.example.aemet.models.responses
 
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.LocalTime
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import org.example.aemet.models.data.*
 
 @Serializable
-data class AemetHourlyCityWeatherData(
+data class AemetHourlyCityWeatherPredictionResponse(
     override val id: Int,
     override val version: Float,
     @SerialName("origen") override val source: AemetSourceData,
     @SerialName("elaborado") override val createdAt: LocalDateTime,
     @SerialName("nombre") override val city: String,
     @SerialName("provincia") override val state: String,
-    @SerialName("prediccion") val data: AemetHourlyWeatherData,
-) : IAemetCityWeatherData
+    @SerialName("prediccion") val data: AemetHourlyCityWeatherPredictionData,
+) : IAemetCityWeatherPredictionResponse
 
 @Serializable
-data class AemetHourlyWeatherData(
-    @SerialName("dia") val days: List<AemetHourlyWeatherDayData>
+data class AemetHourlyCityWeatherPredictionData(
+    @SerialName("dia") val days: List<AemetHourlyCityWeatherPredictionDetailData>
 )
 
 @Serializable
-data class AemetHourlyWeatherDayData(
+data class AemetHourlyCityWeatherPredictionDetailData(
     @SerialName("estadoCielo") val sky: List<AemetSkyStateData>,
     @SerialName("precipitacion") val rain: List<AemetRainData>,
     @SerialName("probPrecipitacion") val rainProbability: List<AemetRainData>,

@@ -1,8 +1,9 @@
-package org.example.aemet.models.data
+package org.example.aemet.models.responses
 
 import kotlinx.datetime.LocalDateTime
+import org.example.aemet.models.data.AemetSourceData
 
-interface IAemetCityWeatherData {
+interface IAemetCityWeatherPredictionResponse {
     val id: Int
     val version: Float
     val source: AemetSourceData
