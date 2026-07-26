@@ -7,29 +7,29 @@ import kotlinx.serialization.Serializable
 import org.example.aemet.models.data.*
 
 /**
- * AEMET weather prediction response for a city by hours.
+ * AEMET hourly forecast by city response.
  *
  * See: [AEMET OpenData: Predicción por municipios horaria. Tiempo actual.](https://opendata.aemet.es/dist/index.html#tag/predicciones-especificas/GET/api/prediccion/especifica/municipio/horaria/{municipio})
  */
 @Serializable
-data class AemetHourlyCityWeatherPredictionResponse(
+data class AemetHourlyForecastByCityResponse(
     @SerialName("origen") override val source: AemetSourceData,
     @SerialName("elaborado") override val createdAt: LocalDateTime,
     @SerialName("nombre") override val city: String,
     @SerialName("provincia") override val state: String,
 
     /**
-     * AEMET weather prediction data.
+     * AEMET hourly forecast by city data.
      */
     @SerialName("prediccion") val data: AemetHourlyCityWeatherPredictionData,
     @SerialName("id") override val cityCode: Int,
     override val version: Float
-) : IAemetCityWeatherPredictionResponse
+) : IAemetForecastByCityResponse
 
 /**
- * Root object for AEMET weather prediction data for city by hours.
+ * Root object for AEMET hourly forecast by city data.
  *
- * See: [AemetHourlyCityWeatherPredictionResponse.data]
+ * See: [AemetHourlyForecastByCityResponse.data]
  */
 @Serializable
 data class AemetHourlyCityWeatherPredictionData(
@@ -40,9 +40,9 @@ data class AemetHourlyCityWeatherPredictionData(
 )
 
 /**
- * AEMET weather prediction data for city by hours detail object.
+ * AEMET hourly forecast by city data detail object.
  *
- * See: [AemetHourlyCityWeatherPredictionResponse.data], [AemetHourlyCityWeatherPredictionData.day]
+ * See: [AemetHourlyForecastByCityResponse.data], [AemetHourlyCityWeatherPredictionData.day]
  */
 @Serializable
 data class AemetHourlyCityWeatherPredictionDetailData(

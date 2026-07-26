@@ -4,9 +4,9 @@ import kotlinx.datetime.LocalDateTime
 import org.example.aemet.models.data.AemetSourceData
 
 /**
- * Base interface contract for AEMET weather prediction response models.
+ * Base interface contract for AEMET forecast by city response models.
  */
-interface IAemetCityWeatherPredictionResponse {
+interface IAemetForecastByCityResponse {
     /**
      * Source information about AEMET.
      */
@@ -32,8 +32,7 @@ interface IAemetCityWeatherPredictionResponse {
     /**
      * City code.
      *
-     * Is the combination of CPRO and CMUN fields from INE ([www.ine.es](www.ine.es)) databases.
-     *
+     * The combination of ```CPRO``` and ```CMUN``` fields from **INE** ([www.ine.es](www.ine.es)) databases.
      * See: [INE - Relación de municipios y sus códigos por provincias. Últimos datos](https://www.ine.es/dyngs/INEbase/es/operacion.htm?c=Estadistica_C&cid=1254736177031&menu=ultiDatos&idp=1254734710990)
      */
     val cityCode: Int
@@ -41,7 +40,7 @@ interface IAemetCityWeatherPredictionResponse {
     /**
      * API version.
      *
-     * @return Decimal value like 1.0 or 2.5.
+     * @return Decimal value like ```1.0```.
      */
     val version: Float
 }

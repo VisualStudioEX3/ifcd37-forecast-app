@@ -6,29 +6,29 @@ import kotlinx.serialization.Serializable
 import org.example.aemet.models.data.*
 
 /**
- * AEMET weather prediction response for a city by days.
+ * AEMET daily forecast by city response.
  *
  * See: [Predicción por municipios diaria. Tiempo actual.](https://opendata.aemet.es/dist/index.html#tag/predicciones-especificas/GET/api/prediccion/especifica/municipio/diaria/{municipio})
  */
 @Serializable
-data class AemetDailyCityWeatherPredictionResponse(
+data class AemetDailyForecastByCityResponse(
     @SerialName("origen") override val source: AemetSourceData,
     @SerialName("elaborado") override val createdAt: LocalDateTime,
     @SerialName("nombre") override val city: String,
     @SerialName("provincia") override val state: String,
 
     /**
-     * AEMET weather prediction data.
+     * AEMET daily forecast by city data.
      */
     @SerialName("prediccion") val data: AemetDailyCityWeatherPredictionData,
     @SerialName("id") override val cityCode: Int,
     override val version: Float
-) : IAemetCityWeatherPredictionResponse
+) : IAemetForecastByCityResponse
 
 /**
- * Root object for AEMET weather prediction data for city by hours.
+ * Root object for AEMET daily forecast by city data.
  *
- * See: [AemetDailyCityWeatherPredictionResponse.data]
+ * See: [AemetDailyForecastByCityResponse.data]
  */
 @Serializable
 data class AemetDailyCityWeatherPredictionData(
@@ -39,9 +39,9 @@ data class AemetDailyCityWeatherPredictionData(
 )
 
 /**
- * AEMET weather prediction data for city by hours detail object.
+ * AEMET daily forecast by city data detail object.
  *
- * See: [AemetDailyCityWeatherPredictionResponse.data], [AemetDailyCityWeatherPredictionData.day]
+ * See: [AemetDailyForecastByCityResponse.data], [AemetDailyCityWeatherPredictionData.day]
  */
 @Serializable
 data class AemetDailyCityWeatherPredictionDetailData(
