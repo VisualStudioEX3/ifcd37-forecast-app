@@ -22,7 +22,7 @@ interface IAemetForecastByCityApiService {
      */
     @GET("api/prediccion/especifica/municipio/diaria/{municipio}")
     suspend fun getDailyForecatsByCity(
-        @Path("municipio") cityCode: Int
+        @Path("municipio") cityCode: String
     ): AemetOpenDataResponse
 
     /**
@@ -38,7 +38,7 @@ interface IAemetForecastByCityApiService {
      */
     @GET("api/prediccion/especifica/municipio/horaria/{municipio}")
     suspend fun getHourlyForecatsByCity(
-        @Path("municipio") cityCode: Int
+        @Path("municipio") cityCode: String
     ): AemetOpenDataResponse
 
     /**
