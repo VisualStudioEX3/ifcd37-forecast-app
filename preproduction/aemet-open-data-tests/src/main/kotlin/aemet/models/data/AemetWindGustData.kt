@@ -3,8 +3,25 @@ package org.example.aemet.models.data
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+/**
+ * AEMET wind gust data.
+ */
 @Serializable
 data class AemetWindGustData(
-    val value: String,
+    /**
+     * Wind gust value.
+     *
+     * @return Wind gust in kilometers/hour.
+     */
+    val value: Int,
+
+    /**
+     * Time of forecast wind gust.
+     *
+     * @return Possible values for predictions by hour: 0..23.
+     *
+     * Possible values for predictions by days: "00-06",
+     * "06-12", "12-18", "18-24", "00-12", "00-24", "12-24"
+     */
     @SerialName("periodo") val period: String
 )

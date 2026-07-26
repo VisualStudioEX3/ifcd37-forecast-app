@@ -3,34 +3,69 @@ package org.example.aemet.models.data
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+/**
+ * AEMET wind and max wind gust data.
+ *
+ * This value is received as a pair of two different objects in the same list as follow:
+ *
+ * ```
+ *     {
+ *         "direccion": [
+ *             "NO"
+ *         ],
+ *         "velocidad": [
+ *             "22"
+ *         ],
+ *         "periodo": "21"
+ *     },
+ *     {
+ *         "value": "33",
+ *         "periodo": "21"
+ *     }
+ * ```
+ *
+ * To be serialized as a type we used a data class with all fields as optional (except for 'period' that always is
+ * received) to fit the two combinations. 'period' field is used later as key to link the pair combinations.
+ */
 @Serializable
 data class AemetWindAndMaxWindGustData(
+    /**
+     * Wind direction.
+     *
+     * @return Possible values:
+     * - "N/Norte"
+     * - "NE/Nordeste"
+     * - "E/Este"
+     * - "SE/Sudeste"
+     * - "S/Sur"
+     * - "SO/Suroeste"
+     * - "O/Oeste"
+     * - "NO/Noroeste"
+     * - "C/Calma"
+     */
     @SerialName("direccion") val direction: List<String>?,
+
+    /**
+     * Wind velocity.
+     *
+     * @return Wind velocity in kilometers/hour.
+     */
     @SerialName("velocidad") val velocity: List<Int>?,
-    @SerialName("periodo") val period: String,
+
+    /**
+     * Time of forecast wind velocity.
+     *
+     * @return Possible values for predictions by hour: 0..23.
+     *
+     * Possible values for predictions by days: "00-06",
+     * "06-12", "12-18", "18-24", "00-12", "00-24", "12-24"
+     */
+    @SerialName("periodo") val hour: String,
+
+    /**
+     * Max wind gust value.
+     *
+     * @return Wind gust in kilometers/hour.
+     */
     val value: Int?,
 )
-
-/*
-    FYI: This value is received as a couple of two different objects in the
-    same list as follow:
-
-    {
-        "direccion": [
-            "NO"
-        ],
-        "velocidad": [
-            "22"
-        ],
-        "periodo": "21"
-    },
-    {
-        "value": "33",
-        "periodo": "21"
-    }
-
-    To be serialized as a type we used a data class with all fields as
-    optional (except for 'period' that always is received) to fit the two
-    combinations. 'period' field is used later as key to link the pair
-    combinations.
- */
