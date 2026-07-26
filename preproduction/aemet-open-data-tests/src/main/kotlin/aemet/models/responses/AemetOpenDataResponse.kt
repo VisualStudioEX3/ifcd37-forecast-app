@@ -11,7 +11,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class AemetOpenDataResponse(
     /**
-     * AEMET OpenData response state.
+     * HTTP response state.
      *
      * @return Usually 1.
      */
@@ -30,15 +30,15 @@ data class AemetOpenDataResponse(
      * Temporal url to request the response data.
      *
      * @return If the response is succesful, then this field contains the url where to request the response data.
-     * Otherwise empty [String] or null.
+     * Otherwise null.
      */
-    @SerialName("datos") val requestUrlData: String?,
+    @SerialName("datos") val requestUrlData: String? = null,
 
     /**
      * Temporal url to request the response metadata.
      *
      * @return If the response is succesful, then this field contains the url where to request the response metadata.
-     * This metadata shows the response model definition and details. Otherwise empty [String] or null.
+     * This metadata shows the response model definition and details. Otherwise null.
      */
-    @SerialName("metadatos") val requestUrlMetadata: String?,
+    @SerialName("metadatos") val requestUrlMetadata: String? = null,
 )
