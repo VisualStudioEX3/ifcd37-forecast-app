@@ -41,4 +41,22 @@ data class AemetOpenDataResponse(
      * This metadata shows the response model definition and details. Otherwise null.
      */
     @SerialName("metadatos") val requestUrlMetadata: String? = null,
-)
+) {
+    /**
+     * Extracts the id value from [requestUrlData] value.
+     *
+     * @return String value with the data id.
+     * @throws IllegalStateException Throws when [requestUrlData] is null.
+     */
+    fun getDataId(): String = requestUrlData?.split('/')?.last()
+        ?: error("Request URL data is null.")
+
+    /**
+     * Extracts the id value from [requestUrlMetadata] value.
+     *
+     * @return String value with the metadadata id.
+     * @throws IllegalStateException Throws when [requestUrlMetadata] is null.
+     */
+    fun getMetaDataId(): String = requestUrlMetadata?.split('/')?.last()
+        ?: error("Request URL data is null.")
+}
