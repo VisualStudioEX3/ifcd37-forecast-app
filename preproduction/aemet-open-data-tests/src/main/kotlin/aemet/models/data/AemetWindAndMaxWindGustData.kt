@@ -43,29 +43,26 @@ data class AemetWindAndMaxWindGustData(
      * - "NO/Noroeste"
      * - "C/Calma"
      */
-    @SerialName("direccion") val direction: List<String>?,
+    @SerialName("direccion") val direction: List<String>? = null,
 
     /**
      * Wind velocity.
      *
      * @return Wind velocity in kilometers/hour.
      */
-    @SerialName("velocidad") val velocity: List<Int>?,
+    @SerialName("velocidad") val velocity: List<Int>? = null,
 
     /**
      * Time of forecast wind velocity.
      *
      * @return Possible values for predictions by hour: 0..23.
-     *
-     * Possible values for predictions by days: "00-06",
-     * "06-12", "12-18", "18-24", "00-12", "00-24", "12-24"
      */
-    @SerialName("periodo") val hour: String,
+    @SerialName("periodo") val period: Int,
 
     /**
      * Max wind gust value.
      *
      * @return Wind gust in kilometers/hour.
      */
-    val value: Int?,
+    val value: Int? = null,
 )

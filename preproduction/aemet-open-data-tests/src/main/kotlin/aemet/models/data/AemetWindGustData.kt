@@ -11,9 +11,9 @@ data class AemetWindGustData(
     /**
      * Wind gust value.
      *
-     * @return Wind gust in kilometers/hour.
+     * @return Wind gust in kilometers/hour. Empty string means not data for this period.
      */
-    val value: Int,
+    val value: String,
 
     /**
      * Time of forecast wind gust.
@@ -23,5 +23,5 @@ data class AemetWindGustData(
      * Possible values for predictions by days: "00-06",
      * "06-12", "12-18", "18-24", "00-12", "00-24", "12-24"
      */
-    @SerialName("periodo") val period: String
+    @SerialName("periodo") val period: String? = null
 )

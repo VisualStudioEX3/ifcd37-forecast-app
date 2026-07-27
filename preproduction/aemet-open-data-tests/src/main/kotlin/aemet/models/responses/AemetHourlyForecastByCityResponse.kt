@@ -79,17 +79,17 @@ data class AemetHourlyCityWeatherPredictionDetailData(
     /**
      * Temperature data.
      */
-    @SerialName("temperatura") val temperature: List<AemetTemperatureByHourData>,
+    @SerialName("temperatura") val temperature: List<AemetTemperaturePeriodData>,
 
     /**
      * Wind child data.
      */
-    @SerialName("sensTermica") val windChill: List<AemetTemperatureByHourData>,
+    @SerialName("sensTermica") val windChill: List<AemetTemperaturePeriodData>,
 
     /**
      * Relative humidity data.
      */
-    @SerialName("humedadRelativa") val relativeHumidity: List<AemetRelativeHumidityDetailData>,
+    @SerialName("humedadRelativa") val relativeHumidity: List<AemetRelativeHumidityPeriodData>,
 
     /**
      * Wind and max wind gust data.

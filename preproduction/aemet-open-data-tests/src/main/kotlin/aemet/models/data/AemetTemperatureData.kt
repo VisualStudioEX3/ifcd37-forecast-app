@@ -25,11 +25,14 @@ data class AemetTemperatureData(
     /**
      * List of temperature details by hour.
      */
-    @SerialName("dato") val data: List<AemetTemperatureByHourData>,
+    @SerialName("dato") val data: List<AemetTemperatureDeatilData>,
 )
 
+/**
+ * AEMET temperature detail data.
+ */
 @Serializable
-data class AemetTemperatureByHourData(
+data class AemetTemperatureDeatilData(
     /**
      * Temperature value.
      *
@@ -40,10 +43,7 @@ data class AemetTemperatureByHourData(
     /**
      * Time of forecast temperature.
      *
-     * @return Possible values for predictions by hour: 0..23.
-     *
-     * Possible values for predictions by days: "00-06",
-     * "06-12", "12-18", "18-24", "00-12", "00-24", "12-24"
+     * @return Possible values: 0..23.
      */
-    @SerialName("hora") val hour: Byte
+    @SerialName("hora") val hour: Int
 )

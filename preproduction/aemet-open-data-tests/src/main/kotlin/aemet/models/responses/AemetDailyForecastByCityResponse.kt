@@ -88,7 +88,7 @@ data class AemetDailyCityWeatherPredictionDetailData(
     /**
      * Max ultraviolet radiation index.
      */
-    @SerialName("uvMax") val maxUvRadiation: Int,
+    @SerialName("uvMax") val maxUvRadiation: Int? = null,
 
     /**
      * Date of the prediction.

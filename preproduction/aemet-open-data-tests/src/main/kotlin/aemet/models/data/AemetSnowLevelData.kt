@@ -11,9 +11,9 @@ data class AemetSnowLevelData(
     /**
      * Snow level value.
      *
-     * @return Snow level in meters.
+     * @return Snow level in meters. Empty string means not data for this period.
      */
-    val value: Int,
+    val value: String,
 
     /**
      * Period of validity for the snow level.
@@ -23,5 +23,5 @@ data class AemetSnowLevelData(
      * Possible values for predictions by days: "00-06",
      * "06-12", "12-18", "18-24", "00-12", "00-24", "12-24"
      */
-    @SerialName("periodo") val period: String
+    @SerialName("periodo") val period: String? = null
 )

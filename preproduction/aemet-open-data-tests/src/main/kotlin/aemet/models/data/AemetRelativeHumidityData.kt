@@ -44,9 +44,6 @@ data class AemetRelativeHumidityDetailData(
      * Time of forecast relative humidity.
      *
      * @return Possible values for predictions by hour: 0..23.
-     *
-     * Possible values for predictions by days: "00-06",
-     * "06-12", "12-18", "18-24", "00-12", "00-24", "12-24"
      */
-    @SerialName("hora") val hour: Byte
+    @SerialName("hora") val hour: Int
 )
