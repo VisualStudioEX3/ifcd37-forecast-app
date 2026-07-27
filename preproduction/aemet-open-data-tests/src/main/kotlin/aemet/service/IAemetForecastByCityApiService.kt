@@ -1,7 +1,8 @@
 package org.example.aemet.service
 
+import org.example.aemet.models.responses.AemetDailyForecastByCityResponse
+import org.example.aemet.models.responses.AemetHourlyForecastByCityResponse
 import org.example.aemet.models.responses.AemetOpenDataResponse
-import org.example.aemet.models.responses.IAemetForecastByCityResponse
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Path
@@ -47,22 +48,38 @@ interface IAemetForecastByCityApiService {
     ): AemetOpenDataResponse
 
     /**
-     * Requests data sourced by url in response.
+     * Requests daily forecast data.
      *
-     * When a request is successful, [AemetOpenDataResponse] response return two urls,
-     * [AemetOpenDataResponse.requestUrlData] with the temporal url pointed to the requested data, and
-     * [AemetOpenDataResponse.requestUrlMetadata] with the temporal url pointed to the metadata that defined the
-     * requested data structure and possible values. Each url ends with the id value to the pointed data (e.g.
-     * ```https://opendata.aemet.es/opendata/sh/be16a275```).
+     * When a request is successful, [AemetOpenDataResponse] response return an url in
+     * [AemetOpenDataResponse.requestUrlData] field with the temporal url pointed to the requested data. The url ends
+     * with the id value to the pointed data (e.g. ```https://opendata.aemet.es/opendata/sh/be16a275```).
      *
      * @param apiKey AEMET OpenData API key.
      * @param id Data id to request.
      *
-     * @return Returns an [IAemetForecastByCityResponse] based object with the deserialized data.
+     * @return Returns a list of [AemetDailyForecastByCityResponse] based object with the deserialized data.
      */
     @GET("sh/{id}")
-    suspend fun <T : IAemetForecastByCityResponse> getResponseData(
+    suspend fun getDailyForescastData(
         @Header("api_key") apiKey: String,
         @Path("id") id: String
-    ): T
+    ): List<AemetDailyForecastByCityResponse>
+
+    /**
+     * Requests hourly forecast data.
+     *
+     * When a request is successful, [AemetOpenDataResponse] response return an url in
+     * [AemetOpenDataResponse.requestUrlData] field with the temporal url pointed to the requested data. The url ends
+     * with the id value to the pointed data (e.g. ```https://opendata.aemet.es/opendata/sh/be16a275```).
+     *
+     * @param apiKey AEMET OpenData API key.
+     * @param id Data id to request.
+     *
+     * @return Returns a list of [AemetHourlyForecastByCityResponse] based object with the deserialized data.
+     */
+    @GET("sh/{id}")
+    suspend fun getHourlyForescastData(
+        @Header("api_key") apiKey: String,
+        @Path("id") id: String
+    ): List<AemetHourlyForecastByCityResponse>
 }
