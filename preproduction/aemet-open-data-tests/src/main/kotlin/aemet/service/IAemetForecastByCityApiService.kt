@@ -1,7 +1,5 @@
 package org.example.aemet.service
 
-import org.example.aemet.models.responses.AemetDailyForecastByCityResponse
-import org.example.aemet.models.responses.AemetHourlyForecastByCityResponse
 import org.example.aemet.models.responses.AemetOpenDataResponse
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -46,40 +44,4 @@ interface IAemetForecastByCityApiService {
         @Header("api_key") apiKey: String,
         @Path("municipio") cityCode: String
     ): AemetOpenDataResponse
-
-    /**
-     * Requests daily forecast data.
-     *
-     * When a request is successful, [AemetOpenDataResponse] response return an url in
-     * [AemetOpenDataResponse.requestUrlData] field with the temporal url pointed to the requested data. The url ends
-     * with the id value to the pointed data (e.g. ```https://opendata.aemet.es/opendata/sh/be16a275```).
-     *
-     * @param apiKey AEMET OpenData API key.
-     * @param id Data id to request.
-     *
-     * @return Returns a list of [AemetDailyForecastByCityResponse] based object with the deserialized data.
-     */
-    @GET("sh/{id}")
-    suspend fun getDailyForescastData(
-        @Header("api_key") apiKey: String,
-        @Path("id") id: String
-    ): List<AemetDailyForecastByCityResponse>
-
-    /**
-     * Requests hourly forecast data.
-     *
-     * When a request is successful, [AemetOpenDataResponse] response return an url in
-     * [AemetOpenDataResponse.requestUrlData] field with the temporal url pointed to the requested data. The url ends
-     * with the id value to the pointed data (e.g. ```https://opendata.aemet.es/opendata/sh/be16a275```).
-     *
-     * @param apiKey AEMET OpenData API key.
-     * @param id Data id to request.
-     *
-     * @return Returns a list of [AemetHourlyForecastByCityResponse] based object with the deserialized data.
-     */
-    @GET("sh/{id}")
-    suspend fun getHourlyForescastData(
-        @Header("api_key") apiKey: String,
-        @Path("id") id: String
-    ): List<AemetHourlyForecastByCityResponse>
 }
