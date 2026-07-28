@@ -1,5 +1,6 @@
 package org.example
 
+import kotlinx.serialization.json.Json
 import org.example.aemet.models.responses.AemetDailyForecastByCityResponse
 import org.example.aemet.models.responses.AemetHourlyForecastByCityResponse
 import org.example.aemet.service.AemetApi
@@ -20,8 +21,14 @@ suspend fun requestDailyForecast(apiKey: String, cityCode: String) {
                 println("Daily forecast:")
                 println(it)
 
+                val json: String = NetworkUtils.downloadResourceStringFromUrl(
+                    it.requestUrlData!!
+                )
+
+                println(json)
+
                 val forecast: AemetDailyForecastByCityResponse =
-                    AemetApi.endpoints.getDailyForescastData(apiKey, it.getDataId())
+                    Json.decodeFromString<List<AemetDailyForecastByCityResponse>>(json)
                         .first()
 
                 println(forecast)
@@ -41,8 +48,14 @@ suspend fun requestHourlyForecast(apiKey: String, cityCode: String) {
                 println("Hourly forecast:")
                 println(it)
 
+                val json: String = NetworkUtils.downloadResourceStringFromUrl(
+                    it.requestUrlData!!
+                )
+
+                println(json)
+
                 val forecast: AemetHourlyForecastByCityResponse =
-                    AemetApi.endpoints.getHourlyForescastData(apiKey, it.getDataId())
+                    Json.decodeFromString<List<AemetHourlyForecastByCityResponse>>(json)
                         .first()
 
                 println(forecast)
