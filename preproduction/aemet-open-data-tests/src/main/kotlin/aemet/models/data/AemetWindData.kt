@@ -12,15 +12,15 @@ data class AemetWindData(
      * Wind direction.
      *
      * @return Possible values:
-     * - "N/Norte"
-     * - "NE/Nordeste"
-     * - "E/Este"
-     * - "SE/Sudeste"
-     * - "S/Sur"
-     * - "SO/Suroeste"
-     * - "O/Oeste"
-     * - "NO/Noroeste"
-     * - "C/Calma"
+     * - "N": North.
+     * - "NE": Northeast.
+     * - "E": East.
+     * - "SE": Southeast.
+     * - "S": South.
+     * - "SO": Southwest.
+     * - "O": West.
+     * - "NO": Northwest.
+     * - "C": Calm.
      */
     @SerialName("direccion") val direction: String,
 
