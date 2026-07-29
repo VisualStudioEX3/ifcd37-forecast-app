@@ -3,6 +3,8 @@ package org.example.forecast.requesthandlers
 /**
  * Contract for forecast request handlers.
  *
+ * Request handlers implements the specific logic to make the server request and receive the server response data.
+ *
  * @param TRequest Type of the request model.
  * @param TResponse Type of the response model.
  */
