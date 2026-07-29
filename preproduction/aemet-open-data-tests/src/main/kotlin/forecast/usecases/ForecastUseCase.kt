@@ -1,25 +1,32 @@
 package org.example.forecast.usecases
 
-import org.example.forecast.models.DailyForecastResponse
-import org.example.forecast.models.ForecastRequest
-import org.example.forecast.models.ForecastResponse
+import org.example.forecast.models.*
 
+/**
+ * Forecast use case.
+ *
+ * This use case requests the daily and hourly forecast data,
+ */
 class ForecastUseCase(
     // TODO: Use IoC with Hilt to resolve dependency
+    private val locationFinder: String, // TODO: Implement location service based on INE database.
     private val dailyForecastUseCase: DailyForecastUseCase = DailyForecastUseCase(),
-    private val hourlyForecastUseCase: String = ""
+    private val hourlyForecastUseCase: HourlyForecastUseCase = HourlyForecastUseCase()
 ) : IForecastUseCase {
     override suspend fun invoke(
         request: ForecastRequest
     ): ForecastResponse {
-        val dailyForecast: DailyForecastResponse = dailyForecastUseCase.invoke(request)
-        val hourlyForecast = emptyList<String>()
+        val location = ForecastLocationData(
+            "",
+            ""
+        )
+        val dailyForecast: List<DailyForecastData> = dailyForecastUseCase.invoke(request)
+        val hourlyForecast: List<HourlyForecastData> = hourlyForecastUseCase.invoke(request)
 
         return ForecastResponse(
-            dataCreationDateTime = dailyForecast.dateTime,
-            city = dailyForecast.cityName,
-            daily = dailyForecast,
-            hourly = hourlyForecast
+            location,
+            dailyForecast,
+            hourlyForecast
         )
     }
 }
