@@ -1,6 +1,5 @@
 package org.example.forecast.models
 
-import kotlinx.datetime.LocalDateTime
 import kotlinx.serialization.Serializable
 
 /**
@@ -9,24 +8,17 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ForecastResponse(
     /**
-     * City name.
+     * Forecast location.
      */
-    val city: String,
-
-    /**
-     * Data creation date and time.
-     *
-     * Shows when was created the forecast data in remote service.
-     */
-    val dataCreationDateTime: LocalDateTime,
+    val location: ForecastLocationData,
 
     /**
      * Daily forecast data.
      */
-    val daily: DailyForecastResponse,
+    val daily: List<DailyForecastData>,
 
     /**
      * Hourly forecast data.
      */
-    val hourly: List<String>,
+    val hourly: List<HourlyForecastData>,
 )
