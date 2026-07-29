@@ -17,7 +17,7 @@ class DailyForecastUseCase(
 ) : IDailyForecastUseCase {
     override suspend fun invoke(
         request: ForecastRequest
-    ): DailyForecastResponse =
+    ): List<DailyForecastData> =
         digest(
             requestHandler.invoke(
                 request
@@ -26,26 +26,23 @@ class DailyForecastUseCase(
 
     private fun digest(
         response: AemetDailyForecastByCityResponse
-    ) = DailyForecastResponse(
-        response.createdAt,
-        response.city,
-        response.data.day.map {
-            extractDayForecast(it)
+    ): List<DailyForecastData> = response.data.day
+        .map {
+            extractForecastData(it)
         }
-    )
 
-    private fun extractDayForecast(
+    private fun extractForecastData(
         data: AemetDailyCityWeatherPredictionDetailData
-    ) = ForecastDayData(
-            date = extractDate(data),
-            skyState = extractSkyState(data),
-            temperature = extractTemperature(data),
-            rainProbability = extractRainProbability(data),
-            windChill = extractWindChild(data),
-            wind = extractWind(data),
-            uvMaxRadiation = extractMaxUvRadiation(data),
-            relativeHumidity = extractRelativeHumidity(data),
-        )
+    ) = DailyForecastData(
+        date = extractDate(data),
+        skyState = extractSkyState(data),
+        temperature = extractTemperature(data),
+        rainProbability = extractRainProbability(data),
+        windChill = extractWindChild(data),
+        wind = extractWind(data),
+        uvMaxRadiation = extractMaxUvRadiation(data),
+        relativeHumidity = extractRelativeHumidity(data),
+    )
 
     private fun extractDate(
         data: AemetDailyCityWeatherPredictionDetailData
@@ -71,7 +68,7 @@ class DailyForecastUseCase(
     private fun extractTemperature(
         data: AemetDailyCityWeatherPredictionDetailData
     ) = data.temperature.let {
-        ForecastDayTemperatureData(it.max, it.min)
+        ForecastMinMaxTemperatureData(it.min, it.max)
     }
 
     private fun extractRainProbability(
@@ -88,18 +85,18 @@ class DailyForecastUseCase(
     private fun extractWindChild(
         data: AemetDailyCityWeatherPredictionDetailData
     ) = data.windChill.let {
-        ForecastDayTemperatureData(it.max, it.min)
+        ForecastMinMaxTemperatureData(it.min, it.max)
     }
 
     private fun extractWind(
         data: AemetDailyCityWeatherPredictionDetailData
-    ): ForecastDayWindData {
+    ): ForecastWindData {
         val windPrediction = data.wind
             .first {
                 it.period == "00-24"
             }
 
-        return ForecastDayWindData(
+        return ForecastWindData(
             direction = ForecastWindDirections.valueOf(windPrediction.direction),
             speed = windPrediction.velocity
         )
@@ -113,6 +110,6 @@ class DailyForecastUseCase(
     private fun extractRelativeHumidity(
         data: AemetDailyCityWeatherPredictionDetailData
     ) = data.relativeHumidity.let {
-        ForecastRelativeHumidityData(it.max, it.min)
+        ForecastRelativeHumidityData(it.min, it.max)
     }
 }
