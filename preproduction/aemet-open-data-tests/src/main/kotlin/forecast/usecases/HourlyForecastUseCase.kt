@@ -19,7 +19,7 @@ class HourlyForecastUseCase(
     // TODO: Use IoC with Hilt to resolve dependency
     val requestHandler: HourlyForecastRequestHandler = HourlyForecastRequestHandler()
 ) : IHourlyForecastUseCase {
-    private var cacheWindData: List<AemetWindData>? = null
+    private var cachedWindData = emptyList<AemetWindData>()
 
     override suspend fun invoke(
         request: ForecastRequest
@@ -39,96 +39,104 @@ class HourlyForecastUseCase(
     private fun extractForecastData(
         data: AemetHourlyCityWeatherPredictionDetailData
     ) = HourlyForecastData(
-        date = extractDate(data),
+        date = extractForecastDate(data),
         data = extractForecastDataDetails(data)
     )
 
     private fun extractForecastDataDetails(
         data: AemetHourlyCityWeatherPredictionDetailData
-    ): List<HourlyForecastDataDetail> {
-        val details = mutableListOf<HourlyForecastDataDetail>()
-
-        repeat(data.temperature.size) { idx ->
-            details.add(extractForecastDataDetail(idx, data))
-        }
-
-        return details
+    ): List<HourlyForecastDataDetail> = data.temperature.map { // Extract available hours from one of the lists:
+        it.period
+    }.map { hour ->
+        extractForecastDataDetail(hour, data)
     }
 
     private fun extractForecastDataDetail(
-        periodIndex: Int,
+        hour: Int,
         data: AemetHourlyCityWeatherPredictionDetailData
-    ) = HourlyForecastDataDetail(
-        hour = extractHour(periodIndex, data),
-        skyState = extractSkyState(periodIndex, data),
-        temperature = extractTemperature(periodIndex, data),
-        rain = extractRain(periodIndex, data),
-        windChill = extractWindChild(periodIndex, data),
-        wind = extractWind(periodIndex, data),
-        relativeHumidity = extractRelativeHumidity(periodIndex, data),
-    )
+    ) = cachedWindData(data).run { // Filter and cached first available wind data for this day:
+        HourlyForecastDataDetail(
+            hour = hour,
+            skyState = extractSkyState(hour, data),
+            temperature = extractTemperature(hour, data),
+            rain = extractRain(hour, data),
+            windChill = extractWindChild(hour, data),
+            wind = extractWindFromCache(hour),
+            relativeHumidity = extractRelativeHumidity(hour, data),
+        )
+    }
 
-    private fun extractDate(
+    private fun extractForecastDate(
         data: AemetHourlyCityWeatherPredictionDetailData
     ): LocalDate =
         data.date.date
 
-    private fun extractHour(
-        periodIndex: Int,
-        data: AemetHourlyCityWeatherPredictionDetailData
-    ): Int = data.temperature[periodIndex].period
-
     private fun extractSkyState(
-        periodIndex: Int,
+        hour: Int,
         data: AemetHourlyCityWeatherPredictionDetailData
-    ) = ForecastSkyStates.valueOf(data.sky[periodIndex].value)
+    ) = ForecastSkyStates.entries
+        .first {
+            it.id == data.sky.first { e ->
+                e.period.toInt() == hour
+            }.value
+        }
 
     private fun extractTemperature(
-        periodIndex: Int,
+        hour: Int,
         data: AemetHourlyCityWeatherPredictionDetailData
-    ): Int = data.temperature[periodIndex].value
+    ): Int = data.temperature.first {
+        it.period == hour
+    }.value
 
     private fun extractRain(
-        periodIndex: Int,
+        hour: Int,
         data: AemetHourlyCityWeatherPredictionDetailData
-    ): Int = data.rain[periodIndex].value
+    ): Int = data.rain.first {
+        it.period.toInt() == hour
+    }.value
 
     private fun extractWindChild(
-        periodIndex: Int,
+        hour: Int,
         data: AemetHourlyCityWeatherPredictionDetailData
-    ): Int = data.windChill[periodIndex].value
+    ): Int = data.windChill.first {
+        it.period == hour
+    }.value
 
-    private fun extractWind(
-        periodIndex: Int,
-        data: AemetHourlyCityWeatherPredictionDetailData
-    ) = getCachedWindData(data)[periodIndex].let {
+    private fun extractWindFromCache(
+        hour: Int
+    ) = cachedWindData.first {
+        it.period.toInt() == hour
+    }.let {
         ForecastWindData(
-            direction = ForecastWindDirections.valueOf(it.direction),
-            speed = it.velocity
+            direction = ForecastWindDirections.entries
+                .first { e ->
+                    e.id == it.direction
+                },
+            speed = it.speed
         )
     }
 
-    private fun getCachedWindData(
+    private fun cachedWindData(
         data: AemetHourlyCityWeatherPredictionDetailData
-    ): List<AemetWindData> {
-        if (cacheWindData == null) {
-            cacheWindData = data.windAndMaxWindGust
-                .filterNot {
-                    it.value == null
-                }.map {
-                    AemetWindData(
-                        it.direction!!.first(),
-                        it.velocity!!.first(),
-                        ""
-                    )
-                }
-        }
-
-        return cacheWindData!!
+    ) {
+        cachedWindData = data.windAndMaxWindGust
+            .filter { // Discard { value: 0, periodo: "" } objects:
+                it.value == null &&
+                        it.direction != null &&
+                        it.speed != null
+            }.map {
+                AemetWindData(
+                    it.direction!!.first(),
+                    it.speed!!.first(),
+                    it.period.toString()
+                )
+            }
     }
 
     private fun extractRelativeHumidity(
-        periodIndex: Int,
+        hour: Int,
         data: AemetHourlyCityWeatherPredictionDetailData
-    ): Int = data.relativeHumidity[periodIndex].value
+    ): Int = data.relativeHumidity.first {
+        it.period == hour
+    }.value
 }
