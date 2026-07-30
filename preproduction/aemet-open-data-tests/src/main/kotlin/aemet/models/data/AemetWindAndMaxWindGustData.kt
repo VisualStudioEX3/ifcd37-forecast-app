@@ -46,11 +46,11 @@ data class AemetWindAndMaxWindGustData(
     @SerialName("direccion") val direction: List<String>? = null,
 
     /**
-     * Wind velocity.
+     * Wind speed.
      *
      * @return Wind velocity in kilometers/hour.
      */
-    @SerialName("velocidad") val velocity: List<Int>? = null,
+    @SerialName("velocidad") val speed: List<Int>? = null,
 
     /**
      * Time of forecast wind velocity.
