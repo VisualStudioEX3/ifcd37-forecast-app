@@ -1,7 +1,6 @@
 package org.example.forecast.usecases
 
 import kotlinx.datetime.LocalDate
-import org.example.TimeUtils
 import org.example.aemet.models.responses.AemetDailyCityWeatherPredictionDetailData
 import org.example.aemet.models.responses.AemetDailyForecastByCityResponse
 import org.example.forecast.data.ForecastSkyStates
@@ -32,31 +31,41 @@ class DailyForecastUseCase(
             extractForecastData(it)
         }
 
-    private fun <TPeriod> getPeriodOrSingle(
-        list: List<TPeriod>,
-        keySelector: (TPeriod) -> String
-    ): TPeriod = list
-        .associateBy(keySelector)
-        .let {
-            when (TimeUtils.now().hour) {
-                in 0..11 -> it["00-24"] ?: it["00-12"]
-                in 12..17 -> it["12-24"] ?: it["00-24"]
-                else -> it["18-24"] ?: it["00-24"]
-            } ?: it.entries.single().value
-        }
+    /*
+     * FYI: AEMET OpenData API returns all periods in the response despite the issue where more of them doesn't had data
+     * because are behind the current forecast time elaboration. In addition, the latest forecast days return some
+     * periods instead, and the last 3 days only return one period but without period value.
+     *
+     * This function solve this issue filtering one of the lists organized by periods, in this case used the sky states
+     * list, removing all periods without data, and trying to get the first one by period. In case of not found one
+     * valid period, we assumed that was one of the last 3 forecast days and then used empty string as period value.
+     *
+     * This value is used later to get the data from sky states, rain probabilities and wind lists.
+     */
+    private fun getValidPeriod(
+        data: AemetDailyCityWeatherPredictionDetailData
+    ): String = data.sky
+        .filter {
+            it.value.isNotEmpty()
+        }.map {
+            it.period
+        }.firstOrNull() ?: ""
 
     private fun extractForecastData(
         data: AemetDailyCityWeatherPredictionDetailData
-    ) = DailyForecastData(
-        date = extractDate(data),
-        skyState = extractSkyState(data),
-        temperature = extractTemperature(data),
-        rainProbability = extractRainProbability(data),
-        windChill = extractWindChild(data),
-        wind = extractWind(data),
-        uvMaxRadiation = extractMaxUvRadiation(data),
-        relativeHumidity = extractRelativeHumidity(data),
-    )
+    ) = getValidPeriod(data)
+        .let { period ->
+            DailyForecastData(
+                date = extractDate(data),
+                skyState = extractSkyState(data, period),
+                temperature = extractTemperature(data),
+                rainProbability = extractRainProbability(data, period),
+                windChill = extractWindChild(data),
+                wind = extractWind(data, period),
+                uvMaxRadiation = extractMaxUvRadiation(data),
+                relativeHumidity = extractRelativeHumidity(data),
+            )
+        }
 
     private fun extractDate(
         data: AemetDailyCityWeatherPredictionDetailData
@@ -64,18 +73,17 @@ class DailyForecastUseCase(
         data.date.date
 
     private fun extractSkyState(
-        data: AemetDailyCityWeatherPredictionDetailData
-    ): ForecastSkyStates = getPeriodOrSingle(
-        list = data.sky,
-        keySelector = {
-            it.period
+        data: AemetDailyCityWeatherPredictionDetailData,
+        period: String
+    ): ForecastSkyStates = data.sky
+        .first {
+            it.period == period
+        }.let { (value, _, _) ->
+            ForecastSkyStates.entries
+                .first {
+                    it.id == value
+                }
         }
-    ).let { (value, _, _) ->
-        ForecastSkyStates.entries
-            .first {
-                it.id == value
-            }
-    }
 
     private fun extractTemperature(
         data: AemetDailyCityWeatherPredictionDetailData
@@ -84,13 +92,12 @@ class DailyForecastUseCase(
     }
 
     private fun extractRainProbability(
-        data: AemetDailyCityWeatherPredictionDetailData
-    ): Int = getPeriodOrSingle(
-        list = data.rainProbability,
-        keySelector = {
-            it.period
-        }
-    ).value
+        data: AemetDailyCityWeatherPredictionDetailData,
+        period: String
+    ): Int = data.rainProbability
+        .first {
+            it.period == period
+        }.value
 
     private fun extractWindChild(
         data: AemetDailyCityWeatherPredictionDetailData
@@ -99,21 +106,20 @@ class DailyForecastUseCase(
     }
 
     private fun extractWind(
-        data: AemetDailyCityWeatherPredictionDetailData
-    ): ForecastWindData = getPeriodOrSingle(
-        list = data.wind,
-        keySelector = {
-            it.period
+        data: AemetDailyCityWeatherPredictionDetailData,
+        period: String
+    ): ForecastWindData = data.wind
+        .first {
+            it.period == period
+        }.let { (direction, speed, _) ->
+            ForecastWindData(
+                direction = ForecastWindDirections.entries
+                    .first {
+                        it.id == direction
+                    },
+                speed = speed
+            )
         }
-    ).let { (direction, speed, _) ->
-        ForecastWindData(
-            direction = ForecastWindDirections.entries
-                .first {
-                    it.id == direction
-                },
-            speed = speed
-        )
-    }
 
     private fun extractMaxUvRadiation(
         data: AemetDailyCityWeatherPredictionDetailData
