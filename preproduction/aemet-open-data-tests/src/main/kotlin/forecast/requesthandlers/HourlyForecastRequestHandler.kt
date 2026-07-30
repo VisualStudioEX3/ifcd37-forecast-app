@@ -5,40 +5,44 @@ import org.example.NetworkUtils
 import org.example.aemet.models.responses.AemetHourlyForecastByCityResponse
 import org.example.aemet.models.responses.AemetOpenDataResponse
 import org.example.aemet.service.AemetApi
+import org.example.forecast.exceptions.*
 import org.example.forecast.models.ForecastRequest
 import retrofit2.HttpException
 
 /**
  * Hourly forecast request handler.
  */
-class HourlyForecastRequestHandler(
-    // TODO: Use IoC with Hilt to resolve dependency
-): IHourlyForecastRequestHandler {
+class HourlyForecastRequestHandler : IHourlyForecastRequestHandler {
     override suspend fun invoke(
         request: ForecastRequest
     ): AemetHourlyForecastByCityResponse =
         deserializeData(
             downloadData(
-                launchRequest(
+                sendRequest(
                     request
                 )
             )
         )
 
-    private suspend fun launchRequest(
+    private suspend fun sendRequest(
         request: ForecastRequest
-    ): AemetOpenDataResponse {
+    ): AemetOpenDataResponse =
         try {
-            return AemetApi.endpoints.getHourlyForecatsByCity(
+            AemetApi.endpoints.getHourlyForecatsByCity(
                 request.apiKey,
                 request.cityCode
             )
         } catch (e: HttpException) {
             AemetApi.getErrorResponseBody(e).run {
-                error(description)
+                throw when (e.code()) {
+                    401 -> UnauthorizedException(e.message())
+                    403 -> ForbiddenException(e.message())
+                    404 -> NotFoundException(e.message())
+                    429 -> TooManyRequestsException(e.message())
+                    else -> HttpRequestException(e.code(), e.message())
+                }
             }
         }
-    }
 
     private fun downloadData(
         response: AemetOpenDataResponse
