@@ -1,6 +1,7 @@
 package org.example.forecast.usecases
 
 import kotlinx.datetime.LocalDate
+import org.example.TimeUtils
 import org.example.aemet.models.responses.AemetDailyCityWeatherPredictionDetailData
 import org.example.aemet.models.responses.AemetDailyForecastByCityResponse
 import org.example.forecast.data.ForecastSkyStates
@@ -31,35 +32,18 @@ class DailyForecastUseCase(
             extractForecastData(it)
         }
 
-    /*
-     * Because sometimes AEMET API returns the full period list but some periods with empty values,
-     * this function allow to look first for the expected "00-24" period data, and, if not was available,
-     * look for the "12-24" period data, and last look for the first period with data.
-    */
-    private fun <TPeriod> getPeriodOrDefault(
+    private fun <TPeriod> getPeriodOrSingle(
         list: List<TPeriod>,
-        predicate: (TPeriod) -> Pair<TPeriod, String>,
-        filter: (TPeriod) -> Boolean = { true } // Is not empty string, zero value, etc...
-    ): TPeriod = list.map {
-        predicate(it)
-    }.run {
-        // First try, get first full day period 00-24h:
-        firstOrNull { (value, period) ->
-            period == "00-24" && filter(value)
+        keySelector: (TPeriod) -> String
+    ): TPeriod = list
+        .associateBy(keySelector)
+        .let {
+            when (TimeUtils.now().hour) {
+                in 0..11 -> it["00-24"] ?: it["00-12"]
+                in 12..17 -> it["12-24"] ?: it["00-24"]
+                else -> it["18-24"] ?: it["00-24"]
+            } ?: it.entries.single().value
         }
-        // Second try, get second half-day period 12-24h:
-        firstOrNull { (value, period) ->
-            period == "12-24" && filter(value)
-        }
-        // Last try, get the first value with data.
-        // FYI: Latest 3 day forecasts only had single element without period value.
-        // They are the same period as 00-24h:
-            ?: first { (value, _) ->
-                filter(value)
-            }
-    }.let { (value, _) ->
-        value
-    }
 
     private fun extractForecastData(
         data: AemetDailyCityWeatherPredictionDetailData
@@ -81,13 +65,10 @@ class DailyForecastUseCase(
 
     private fun extractSkyState(
         data: AemetDailyCityWeatherPredictionDetailData
-    ): ForecastSkyStates = getPeriodOrDefault(
+    ): ForecastSkyStates = getPeriodOrSingle(
         list = data.sky,
-        predicate = {
-            Pair(it, it.period)
-        },
-        filter = { (value, _, _) ->
-            value.isNotEmpty()
+        keySelector = {
+            it.period
         }
     ).let { (value, _, _) ->
         ForecastSkyStates.entries
@@ -104,13 +85,13 @@ class DailyForecastUseCase(
 
     private fun extractRainProbability(
         data: AemetDailyCityWeatherPredictionDetailData
-    ): Int = getPeriodOrDefault(
+    ): Int = getPeriodOrSingle(
         list = data.rainProbability,
-        predicate = {
-            Pair(it, it.period)
+        keySelector = {
+            it.period
         }
     ).value
-    
+
     private fun extractWindChild(
         data: AemetDailyCityWeatherPredictionDetailData
     ) = data.windChill.let {
@@ -119,13 +100,10 @@ class DailyForecastUseCase(
 
     private fun extractWind(
         data: AemetDailyCityWeatherPredictionDetailData
-    ): ForecastWindData = getPeriodOrDefault(
+    ): ForecastWindData = getPeriodOrSingle(
         list = data.wind,
-        predicate = {
-            Pair(it, it.period)
-        },
-        filter = { (direction, _, _) ->
-            direction.isNotEmpty()
+        keySelector = {
+            it.period
         }
     ).let { (direction, speed, _) ->
         ForecastWindData(
