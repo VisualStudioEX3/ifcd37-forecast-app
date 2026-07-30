@@ -23,5 +23,5 @@ data class AemetRainData(
      * Possible values for predictions by days: "00-06",
      * "06-12", "12-18", "18-24", "00-12", "00-24", "12-24"
      */
-    @SerialName("periodo") val period: String? = null
+    @SerialName("periodo") val period: String = ""
 )
