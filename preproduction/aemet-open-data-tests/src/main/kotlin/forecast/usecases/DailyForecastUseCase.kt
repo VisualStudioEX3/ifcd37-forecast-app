@@ -31,6 +31,36 @@ class DailyForecastUseCase(
             extractForecastData(it)
         }
 
+    /*
+     * Because sometimes AEMET API returns the full period list but some periods with empty values,
+     * this function allow to look first for the expected "00-24" period data, and, if not was available,
+     * look for the "12-24" period data, and last look for the first period with data.
+    */
+    private fun <TPeriod> getPeriodOrDefault(
+        list: List<TPeriod>,
+        predicate: (TPeriod) -> Pair<TPeriod, String>,
+        filter: (TPeriod) -> Boolean = { true } // Is not empty string, zero value, etc...
+    ): TPeriod = list.map {
+        predicate(it)
+    }.run {
+        // First try, get first full day period 00-24h:
+        firstOrNull { (value, period) ->
+            period == "00-24" && filter(value)
+        }
+        // Second try, get second half-day period 12-24h:
+        firstOrNull { (value, period) ->
+            period == "12-24" && filter(value)
+        }
+        // Last try, get the first value with data.
+        // FYI: Latest 3 day forecasts only had single element without period value.
+        // They are the same period as 00-24h:
+            ?: first { (value, _) ->
+                filter(value)
+            }
+    }.let { (value, _) ->
+        value
+    }
+
     private fun extractForecastData(
         data: AemetDailyCityWeatherPredictionDetailData
     ) = DailyForecastData(
@@ -51,18 +81,19 @@ class DailyForecastUseCase(
 
     private fun extractSkyState(
         data: AemetDailyCityWeatherPredictionDetailData
-    ): ForecastSkyStates {
-        val periodValue: String = data.sky
-            .firstOrNull {
-                it.period == "00-24" &&
-                        it.value.isNotEmpty()
-            }?.value
-            ?: data.sky.first {
-                it.value.isNotEmpty()
-            }.value
-        val skyState = ForecastSkyStates.valueOf(periodValue)
-
-        return skyState
+    ): ForecastSkyStates = getPeriodOrDefault(
+        list = data.sky,
+        predicate = {
+            Pair(it, it.period)
+        },
+        filter = { (value, _, _) ->
+            value.isNotEmpty()
+        }
+    ).let { (value, _, _) ->
+        ForecastSkyStates.entries
+            .first {
+                it.id == value
+            }
     }
 
     private fun extractTemperature(
@@ -73,15 +104,13 @@ class DailyForecastUseCase(
 
     private fun extractRainProbability(
         data: AemetDailyCityWeatherPredictionDetailData
-    ): Int {
-        val rainProbability: Int = data.rainProbability
-            .first {
-                it.period == "00-24"
-            }.value
-
-        return rainProbability
-    }
-
+    ): Int = getPeriodOrDefault(
+        list = data.rainProbability,
+        predicate = {
+            Pair(it, it.period)
+        }
+    ).value
+    
     private fun extractWindChild(
         data: AemetDailyCityWeatherPredictionDetailData
     ) = data.windChill.let {
@@ -90,22 +119,28 @@ class DailyForecastUseCase(
 
     private fun extractWind(
         data: AemetDailyCityWeatherPredictionDetailData
-    ): ForecastWindData {
-        val windPrediction = data.wind
-            .first {
-                it.period == "00-24"
-            }
-
-        return ForecastWindData(
-            direction = ForecastWindDirections.valueOf(windPrediction.direction),
-            speed = windPrediction.velocity
+    ): ForecastWindData = getPeriodOrDefault(
+        list = data.wind,
+        predicate = {
+            Pair(it, it.period)
+        },
+        filter = { (direction, _, _) ->
+            direction.isNotEmpty()
+        }
+    ).let { (direction, speed, _) ->
+        ForecastWindData(
+            direction = ForecastWindDirections.entries
+                .first {
+                    it.id == direction
+                },
+            speed = speed
         )
     }
 
     private fun extractMaxUvRadiation(
         data: AemetDailyCityWeatherPredictionDetailData
     ): Int =
-        data.maxUvRadiation!!
+        data.maxUvRadiation ?: 0
 
     private fun extractRelativeHumidity(
         data: AemetDailyCityWeatherPredictionDetailData
