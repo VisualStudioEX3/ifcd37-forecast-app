@@ -46,7 +46,24 @@ class DailyForecastUseCase(
         data: AemetDailyCityWeatherPredictionDetailData
     ): String = data.sky
         .filter {
-            it.value.isNotEmpty()
+            // Expected daily forecast periods based on results analized during 48h:
+            listOf(
+                // Full day period.
+                // Should be the default period for daily forecasts and for the latest partial forecast days:
+                "00-24",
+                // First half-day period:
+                "00-12",
+                // Second half-day period.
+                // Second default period and expected one from 12:00 PM:
+                "12-24",
+                // Last quarter-day period.
+                // Third default period and should be the expected one from 18h until midnight:
+                "18-24",
+                // Full day period for the last 3 forecast days, where the period list only returns one single period
+                // data but with period value empty:
+                ""
+            ).contains(it.period) &&
+                    it.value.isNotEmpty() // Discard periods with empty values.
         }.map {
             it.period
         }.firstOrNull() ?: ""
