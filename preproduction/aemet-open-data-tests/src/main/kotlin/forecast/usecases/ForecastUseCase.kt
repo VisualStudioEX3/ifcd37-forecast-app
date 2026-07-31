@@ -50,6 +50,7 @@ class ForecastUseCase(
                 if (times++ == maxRetries) {
                     throw e
                 } else {
+                    println("($times/$maxRetries) Daily forecast request failed by HTTP Status 429. Retry in $waitUntilNextRetry...")
                     delay(waitUntilNextRetry)
                 }
             }
@@ -68,6 +69,7 @@ class ForecastUseCase(
                 if (times++ == maxRetries) {
                     throw e
                 } else {
+                    println("($times/$maxRetries) Hourly forecast request failed by HTTP Status 429. Retry in $waitUntilNextRetry...")
                     delay(waitUntilNextRetry)
                 }
             }
