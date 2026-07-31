@@ -14,8 +14,8 @@ import kotlin.time.Duration.Companion.milliseconds
 class ForecastUseCase(
     // TODO: Use IoC with Hilt to resolve dependency
     private val locationFinder: String = "", // TODO: Implement location service based on INE database.
-    private val dailyForecastUseCase: DailyForecastUseCase = DailyForecastUseCase(),
-    private val hourlyForecastUseCase: HourlyForecastUseCase = HourlyForecastUseCase()
+    private val dailyForecastUseCase: IDailyForecastUseCase = DailyForecastUseCase(),
+    private val hourlyForecastUseCase: IHourlyForecastUseCase = HourlyForecastUseCase()
 ) : IForecastUseCase {
     // TODO: Resolve from settings
     private val maxRetries: Int = 3

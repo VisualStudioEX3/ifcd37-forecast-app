@@ -8,13 +8,14 @@ import org.example.forecast.data.ForecastUvRadiationIndexSeverityLevels
 import org.example.forecast.data.ForecastWindDirections
 import org.example.forecast.models.*
 import org.example.forecast.requesthandlers.DailyForecastRequestHandler
+import org.example.forecast.requesthandlers.IDailyForecastRequestHandler
 
 /**
  * Daily forecast use case.
  */
 class DailyForecastUseCase(
     // TODO: Use IoC with Hilt to resolve dependency
-    val requestHandler: DailyForecastRequestHandler = DailyForecastRequestHandler()
+    val requestHandler: IDailyForecastRequestHandler = DailyForecastRequestHandler()
 ) : IDailyForecastUseCase {
     override suspend fun invoke(
         request: ForecastRequest
