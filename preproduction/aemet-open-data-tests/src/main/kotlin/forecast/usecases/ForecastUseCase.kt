@@ -23,7 +23,7 @@ class ForecastUseCase(
 
     override suspend fun invoke(
         request: ForecastRequest
-    ) = ForecastResponse(
+    ) = ForecastResponse( // TODO: Resolve this with location finder service
         ForecastLocationData(
             "",
             ""
@@ -50,7 +50,6 @@ class ForecastUseCase(
                 if (times++ == maxRetries) {
                     throw e
                 } else {
-                    println("Retry #$times daily forecast request in $waitUntilNextRetry milliseconds...")
                     delay(waitUntilNextRetry)
                 }
             }
@@ -69,7 +68,6 @@ class ForecastUseCase(
                 if (times++ == maxRetries) {
                     throw e
                 } else {
-                    println("Retry #$times hourly forecast request in $waitUntilNextRetry milliseconds...")
                     delay(waitUntilNextRetry)
                 }
             }
