@@ -18,8 +18,8 @@ class ForecastUseCase(
     private val hourlyForecastUseCase: IHourlyForecastUseCase = HourlyForecastUseCase()
 ) : IForecastUseCase {
     // TODO: Resolve from settings
-    private val maxRetries: Int = 3
-    private val waitUntilNextRetry: Duration = 3000.milliseconds
+    private val maxRetries: Int = 5
+    private val waitUntilNextRetry: Duration = 5000.milliseconds
 
     override suspend fun invoke(
         request: ForecastRequest
