@@ -4,6 +4,7 @@ import kotlinx.datetime.LocalDate
 import org.example.aemet.models.responses.AemetDailyCityWeatherPredictionDetailData
 import org.example.aemet.models.responses.AemetDailyForecastByCityResponse
 import org.example.forecast.data.ForecastSkyStates
+import org.example.forecast.data.ForecastUvRadiationIndexSeverityLevels
 import org.example.forecast.data.ForecastWindDirections
 import org.example.forecast.models.*
 import org.example.forecast.requesthandlers.DailyForecastRequestHandler
@@ -140,8 +141,16 @@ class DailyForecastUseCase(
 
     private fun extractMaxUvRadiation(
         data: AemetDailyCityWeatherPredictionDetailData
-    ): Int =
-        data.maxUvRadiation ?: 0
+    ) = (data.maxUvRadiation ?: 0)
+        .let { maxUvIndex ->
+            ForecastUvRadiationData(
+                maxIndex = maxUvIndex,
+                severityLevel = ForecastUvRadiationIndexSeverityLevels.entries
+                    .first {
+                        it.range.contains(maxUvIndex)
+                    }
+            )
+        }
 
     private fun extractRelativeHumidity(
         data: AemetDailyCityWeatherPredictionDetailData

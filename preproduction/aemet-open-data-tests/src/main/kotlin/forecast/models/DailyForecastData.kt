@@ -3,6 +3,7 @@ package org.example.forecast.models
 import kotlinx.datetime.LocalDate
 import kotlinx.serialization.Serializable
 import org.example.forecast.data.ForecastSkyStates
+import org.example.forecast.data.ForecastUvRadiationIndexSeverityLevels
 import org.example.forecast.data.ForecastWindDirections
 
 /**
@@ -43,9 +44,9 @@ data class DailyForecastData(
     val wind: ForecastWindData,
 
     /**
-     * Ultraviolet max radiation.
+     * Ultraviolet max radiation index level.
      */
-    val uvMaxRadiation: Int,
+    val uvMaxRadiation: ForecastUvRadiationData,
 
     /**
      * Min/max relative humidity.
@@ -109,4 +110,20 @@ data class ForecastRelativeHumidityData(
      * @return Returns a value between 0 and 100.
      */
     val max: Int,
+)
+
+/**
+ * Forecast ultraviolet radiation data.
+ */
+@Serializable
+data class ForecastUvRadiationData(
+    /**
+     * Ultraviolet max radiation index.
+     */
+    val maxIndex: Int,
+
+    /**
+     * Ultraviolet radiation index severity level.
+     */
+    val severityLevel: ForecastUvRadiationIndexSeverityLevels
 )
