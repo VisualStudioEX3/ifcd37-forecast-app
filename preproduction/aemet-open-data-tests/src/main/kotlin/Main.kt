@@ -1,69 +1,55 @@
 package org.example
 
-import kotlinx.serialization.json.Json
-import org.example.aemet.models.responses.AemetDailyForecastByCityResponse
-import org.example.aemet.models.responses.AemetHourlyForecastByCityResponse
-import org.example.aemet.service.AemetApi
-import retrofit2.HttpException
+import org.example.forecast.ISpainForecastService
+import org.example.forecast.SpainForecastService
+import org.example.forecast.models.DailyForecastData
+import org.example.forecast.models.ForecastResponse
+import org.example.forecast.models.HourlyForecastData
+import org.example.forecast.models.HourlyForecastDataDetail
 
 suspend fun main() {
-    val apiKey: String = Secrets.getSecret("aemet_opendata_api_key")
-    val cityCode = "28058"
+    val service: ISpainForecastService = SpainForecastService()
+    val cityCode: String = requestCityCode()
+    val response: ForecastResponse = service.getForecastByCity(cityCode)
 
-    requestDailyForecast(apiKey, cityCode)
-    requestHourlyForecast(apiKey, cityCode)
+    printForecast(response)
 }
 
-suspend fun requestDailyForecast(apiKey: String, cityCode: String) {
-    try {
-        AemetApi.endpoints.getDailyForecatsByCity(apiKey, cityCode).also {
-            try {
-                println("Daily forecast:")
-                println(it)
+fun requestCityCode(): String {
+    print("Enter a valid INE code for a city (CPRO + CMUN, example: '28058' for Fuenlabrada, Comunidad de Madrid): ")
 
-                val json: String = NetworkUtils.downloadResourceStringFromUrl(
-                    it.requestUrlData!!
-                )
-
-                println(json)
-
-                val forecast: AemetDailyForecastByCityResponse =
-                    Json.decodeFromString<List<AemetDailyForecastByCityResponse>>(json)
-                        .first()
-
-                println(forecast)
-            } catch (e: Exception) {
-                println(e.message)
-            }
-        }
-    } catch (e: HttpException) {
-        println(AemetApi.getErrorResponseBody(e))
-    }
+    return readln()
 }
 
-suspend fun requestHourlyForecast(apiKey: String, cityCode: String) {
-    try {
-        AemetApi.endpoints.getHourlyForecatsByCity(apiKey, cityCode).also {
-            try {
-                println("Hourly forecast:")
-                println(it)
+fun printForecast(response: ForecastResponse) {
+    printTodayForecast(response)
+    printNowForecast(response)
+}
 
-                val json: String = NetworkUtils.downloadResourceStringFromUrl(
-                    it.requestUrlData!!
-                )
+fun printTodayForecast(response: ForecastResponse) {
+    val today: DailyForecastData = response.daily.first()
 
-                println(json)
+    println("Forecast for today ${today.date}:")
+    println("- Sky state: ${today.skyState}")
+    println("- Temperature: (max: ${today.temperature.max}º, min: ${today.temperature.min}º)")
+    println("- Rain probability: ${today.rainProbability}%")
+    println("- Wind chill: (max: ${today.windChill.max}º, min: ${today.windChill.min}º)")
+    println("- Wind: (Direction: ${today.wind.direction}, speed: ${today.wind.speed}km/h)")
+    println("- Ultraviolet max radiation: ${today.uvMaxRadiation.maxIndex} (${today.uvMaxRadiation.severityLevel})")
+    println("- Relative humidity: (max: ${today.relativeHumidity.max}mm, min: ${today.relativeHumidity.min}mm)")
+}
 
-                val forecast: AemetHourlyForecastByCityResponse =
-                    Json.decodeFromString<List<AemetHourlyForecastByCityResponse>>(json)
-                        .first()
-
-                println(forecast)
-            } catch (e: Exception) {
-                println(e.message)
-            }
-        }
-    } catch (e: HttpException) {
-        println(AemetApi.getErrorResponseBody(e))
+fun printNowForecast(response: ForecastResponse) {
+    val today: HourlyForecastData = response.hourly.first()
+    val now: HourlyForecastDataDetail = today.data.first {
+        it.hour == TimeUtils.now().hour
     }
+
+    println("Forecast for today ${today.date} at ${now.hour}:00h:")
+    println("- Sky state: ${now.skyState}")
+    println("- Temperature: ${now.temperature}º")
+    println("- Rain: ${now.rain}mm")
+    println("- Wind chill: ${now.windChill}º")
+    println("- Wind: (Direction: ${now.wind.direction}, speed: ${now.wind.speed}km/h)")
+    println("- Relative humidity: ${now.relativeHumidity}mm)")
 }
