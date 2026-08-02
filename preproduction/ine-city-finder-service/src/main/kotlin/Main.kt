@@ -14,7 +14,8 @@ suspend fun main() {
         print(
             "\nSelect option:\n" +
                     "1: Find cities by name.\n" +
-                    "2: Get state name by code.\n" +
+                    "2: Get State name by code.\n" +
+                    "3: Get Autonomous Community name by code.\n" +
                     "0: Exit.\n" +
                     ">"
         ); select = readln()
@@ -22,6 +23,7 @@ suspend fun main() {
         when (select) {
             "1" -> findCitiesByName()
             "2" -> getStateNameByCode()
+            "3" -> getAutonomousCommunityNameByCode()
             else -> println("Wrong selection. Try again.")
         }
     } while (select != "0")
@@ -49,6 +51,18 @@ suspend fun getStateNameByCode() {
         val result: String = service.getStateNameByCode(code)
 
         println("State name: $result")
+    } catch (e: Exception) {
+        println(e.message)
+    }
+}
+
+suspend fun getAutonomousCommunityNameByCode() {
+    try {
+        print("Enter a code of a Autonomous Community: ")
+        val code: String = readln()
+        val result: String = service.getAutonomousCommunityNameByCode(code)
+
+        println("Autonomous Community name: $result")
     } catch (e: Exception) {
         println(e.message)
     }
