@@ -14,12 +14,12 @@ package org.example.ine.services
 import org.jetbrains.kotlinx.dataframe.annotations.DataSchema
 
 /** @suppress  */
-@Suppress("PropertyName")
+@Suppress("PropertyName", "unused")
 @DataSchema
 interface IneCityExcelRowSchema {
-    val CMUN: Comparable<*>
+    val CMUN: String
     val CODAUTO: String
     val CPRO: String
-    val DC: Comparable<*>
+    val DC: String
     val NOMBRE: String
 }

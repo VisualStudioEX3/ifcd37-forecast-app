@@ -6,6 +6,7 @@ import org.jetbrains.kotlinx.dataframe.DataFrame
 import org.jetbrains.kotlinx.dataframe.api.cast
 import org.jetbrains.kotlinx.dataframe.api.filter
 import org.jetbrains.kotlinx.dataframe.api.map
+import org.jetbrains.kotlinx.dataframe.io.StringColumns
 import org.jetbrains.kotlinx.dataframe.io.readExcel
 
 class IneService
@@ -13,7 +14,9 @@ class IneService
     private val cities: DataFrame<IneCityExcelRowSchema> = loadExcelFile(
         resourceName = "diccionario26.xlsx",
         sheetName = "dic25",
-        skipRows = 1
+        skipRows = 1,
+        stringColumns = "C:D"
+    )
     )
 
     override suspend fun findCitiesByName(
@@ -29,25 +32,33 @@ class IneService
                     IneCityData(
                         autnomousCommunityCode = CODAUTO,
                         stateCode = CPRO,
-                        cityCode = CMUN.toString(),
-                        controlDigit = DC.toString(),
+                        cityCode = CMUN,
+                        controlDigit = DC,
                         name = NOMBRE
                     )
                 }
         }
 
-    private fun <T> loadExcelFile(
+    private inline fun <reified TExcelRowSchema> loadExcelFile(
         resourceName: String,
         sheetName: String? = null,
-        skipRows: Int
-    ): DataFrame<T> {
+        skipRows: Int,
+        stringColumns: String? = null
+    ): DataFrame<TExcelRowSchema> {
         try {
             val url = ResourceUtils.getResource(resourceName)
                 ?: error("Resource with id '$resourceName' not found.")
 
             return DataFrame
-                .readExcel(url, sheetName, skipRows)
-                .cast()
+                .readExcel(
+                    url,
+                    sheetName,
+                    skipRows,
+                    stringColumns = if (stringColumns != null)
+                        StringColumns(stringColumns)
+                    else
+                        null
+                ).cast<TExcelRowSchema>(verify = true)
         } catch (e: Exception) {
             error("Error loading EXCEL file. ${e.message}")
         }
