@@ -1,0 +1,21 @@
+package org.example.ine.services
+
+import org.example.ine.models.IneCityData
+
+/**
+ * INE Service contract.
+ *
+ * Service to search for a places in Spain using the INE databases.
+ */
+interface IIneService {
+    /**
+     * Looks for cities that matches or contains the name.
+     *
+     * @param name Name of the city to search. The name can be incompleted to find all possible coincidences.
+     *
+     * @return Returns a list of [IneCityData] entries with the possible cities that fit the query.
+     *
+     * @throws IllegalArgumentException Throws if [name] is empty or blank string.
+     */
+    suspend fun findCitiesByName(name: String): List<IneCityData>
+}
