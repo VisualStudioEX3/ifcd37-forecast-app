@@ -5,6 +5,9 @@ plugins {
 
     // Hilt
     id("com.google.dagger.hilt.android")
+
+    // Secrets Gradle Plugin
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 android {
