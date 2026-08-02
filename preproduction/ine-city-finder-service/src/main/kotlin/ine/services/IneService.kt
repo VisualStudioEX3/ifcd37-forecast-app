@@ -92,8 +92,16 @@ class IneService
                     stringColumns = if (stringColumns != null)
                         StringColumns(stringColumns)
                     else
-                        null
-                ).cast<TExcelRowSchema>(verify = true)
+                        null,
+                    parseEmptyAsNull = false
+                ).filter { // Removes any row with null or empty/blank string values:
+                    !it.values().any { value ->
+                        if (value is String)
+                            value.isBlank()
+                        else
+                            value == null
+                    }
+                }.cast<TExcelRowSchema>(verify = true)
         } catch (e: Exception) {
             error("Error loading EXCEL file. ${e.message}")
         }
