@@ -66,3 +66,15 @@ dependencies {
     implementation(libs.androidx.hilt.lifecycle.viewmodel.compose)
     ksp(libs.hilt.android.compiler)
 }
+
+secrets {
+    propertiesFileName = "secrets.properties"
+    /*
+     * FYI: secrets.properties file is not showed on "Gradle Scripts" folder and neither on "app"
+     * folder when "Android" project view is active. Change view to "Project Files" to discover the
+     * file in the root level of project folder.
+     *
+     * The key bridge (the key-value reflected in runtime) is created as meta-data element in
+     * AndroidManifest.xml file.
+     */
+}
