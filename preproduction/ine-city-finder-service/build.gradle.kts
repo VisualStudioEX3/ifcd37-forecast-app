@@ -13,6 +13,11 @@ repositories {
 dependencies {
     testImplementation(kotlin("test"))
     implementation("org.jetbrains.kotlinx:dataframe:1.0.0-rc01") {
+        implementation("org.jetbrains.kotlinx:dataframe-core:1.0.0-rc01")
+        implementation("org.jetbrains.kotlinx:dataframe-excel:1.0.0-rc01") {
+            exclude("org.jetbrains.kotlinx", "dataframe-json")
+        }
+
         /*
          * BUG: Kotlin Dataframe used Slf4j logger under the hood. Seems as bug when program initializes that failed to
          * find a valid provider and shows annoying log warnings messages on log output.
@@ -23,10 +28,6 @@ dependencies {
          * This bug is harmless, only add noise to log output, not compromise the Kotlin Dataframe right execution.
          */
         implementation("org.slf4j:slf4j-nop:2.0.18")
-    }
-    implementation("org.jetbrains.kotlinx:dataframe-core:1.0.0-rc01")
-    implementation("org.jetbrains.kotlinx:dataframe-excel:1.0.0-rc01") {
-        exclude("org.jetbrains.kotlinx", "dataframe-json")
     }
 }
 
