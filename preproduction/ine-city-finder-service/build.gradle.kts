@@ -26,6 +26,9 @@ dependencies {
          * Dataframe used Kotlin Loggin internally).
          *
          * This bug is harmless, only add noise to log output, not compromise the Kotlin Dataframe right execution.
+         *
+         * Possible propper solution seems to be implemented in library side ():
+         * https://youtrack.jetbrains.com/projects/KTNB/issues/KTNB-1198/Log4j-reports-no-logger-dependency-when-dataframe-excel-is-used
          */
         implementation("org.slf4j:slf4j-nop:2.0.18")
     }
