@@ -18,4 +18,14 @@ interface IIneService {
      * @throws IllegalArgumentException Throws if [name] is empty or blank string.
      */
     suspend fun findCitiesByName(name: String): List<IneCityData>
+
+    /**
+     * Gets state name by code.
+     *
+     * @return Returns the name of the state.
+     *
+     * @throws IllegalArgumentException Throws if [code] is empty or blank string.
+     * @throws NoSuchElementException Throws if [code] not found.
+     */
+    suspend fun getStateNameByCode(code: String): String
 }

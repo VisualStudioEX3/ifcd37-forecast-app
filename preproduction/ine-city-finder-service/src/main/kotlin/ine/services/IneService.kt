@@ -5,6 +5,7 @@ import org.example.ine.models.IneCityData
 import org.jetbrains.kotlinx.dataframe.DataFrame
 import org.jetbrains.kotlinx.dataframe.api.cast
 import org.jetbrains.kotlinx.dataframe.api.filter
+import org.jetbrains.kotlinx.dataframe.api.firstOrNull
 import org.jetbrains.kotlinx.dataframe.api.map
 import org.jetbrains.kotlinx.dataframe.io.StringColumns
 import org.jetbrains.kotlinx.dataframe.io.readExcel
@@ -17,6 +18,11 @@ class IneService
         skipRows = 1,
         stringColumns = "C:D"
     )
+    private val states: DataFrame<IneStateExcelRowSchema> = loadExcelFile(
+        resourceName = "codprov.xls",
+        sheetName = "Hoja1",
+        skipRows = 1,
+        stringColumns = "A"
     )
 
     override suspend fun findCitiesByName(
@@ -37,6 +43,17 @@ class IneService
                         name = NOMBRE
                     )
                 }
+        }
+
+    override suspend fun getStateNameByCode(code: String): String =
+        require(code.isNotBlank()) {
+            "The code can not be empty or blank string."
+        }.run {
+            states
+                .firstOrNull {
+                    CODIGO == code
+                }?.LITERAL
+                ?: throw NoSuchElementException("State by code '$code' not found.")
         }
 
     private inline fun <reified TExcelRowSchema> loadExcelFile(
