@@ -24,6 +24,13 @@ class IneService
         skipRows = 1,
         stringColumns = "A"
     )
+    private val autonomousCommunities: DataFrame<IneAutonomousCommunityExcelRowSchema> =
+        loadExcelFile(
+            resourceName = "codccaa.xls",
+            sheetName = "Hoja1",
+            skipRows = 1,
+            stringColumns = "A"
+        )
 
     override suspend fun findCitiesByName(
         name: String
@@ -54,6 +61,17 @@ class IneService
                     CODIGO == code
                 }?.LITERAL
                 ?: throw NoSuchElementException("State by code '$code' not found.")
+        }
+
+    override suspend fun getAutonomousCommunityNameByCode(code: String): String =
+        require(code.isNotBlank()) {
+            "The code can not be empty or blank string."
+        }.run {
+            autonomousCommunities
+                .firstOrNull {
+                    CODIGO == code
+                }?.LITERAL
+                ?: throw NoSuchElementException("Autonomous Community by code '$code' not found.")
         }
 
     private inline fun <reified TExcelRowSchema> loadExcelFile(

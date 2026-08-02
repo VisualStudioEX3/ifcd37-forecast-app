@@ -28,4 +28,14 @@ interface IIneService {
      * @throws NoSuchElementException Throws if [code] not found.
      */
     suspend fun getStateNameByCode(code: String): String
+
+    /**
+     * Gets Autonomous Community name by code.
+     *
+     * @return Returns the name of the Autonomous Community.
+     *
+     * @throws IllegalArgumentException Throws if [code] is empty or blank string.
+     * @throws NoSuchElementException Throws if [code] not found.
+     */
+    suspend fun getAutonomousCommunityNameByCode(code: String): String
 }
