@@ -1,15 +1,15 @@
 package com.visualstudioex3.application
 
-import com.visualstudioex3.apdater.inedb.repositories.IneAutonomousCommunityRepositoryImplementation
+import com.visualstudioex3.apdater.inedb.repositories.IneAutonomousCommunityRepository
 import com.visualstudioex3.apdater.inedb.repositories.IneMunicipalityRepository
-import com.visualstudioex3.apdater.inedb.repositories.IneProvinceRepositoryImplementation
+import com.visualstudioex3.apdater.inedb.repositories.IneProvinceRepository
 import com.visualstudioex3.application.models.MunicipalityData
 import javax.inject.Inject
 
-class MunicipalityFinderImplementation @Inject constructor(
+internal class MunicipalityFinderImplementation @Inject constructor(
     val ineMunicipalityRepository: IneMunicipalityRepository,
-    val ineProvinceRepository: IneProvinceRepositoryImplementation,
-    val ineAutonomousCommunityRepository: IneAutonomousCommunityRepositoryImplementation
+    val ineProvinceRepository: IneProvinceRepository,
+    val ineAutonomousCommunityRepository: IneAutonomousCommunityRepository
 ) : MunicipalityFinder {
     override fun findMunicipalities(name: String): List<MunicipalityData> =
         ineMunicipalityRepository.findByName(name)
