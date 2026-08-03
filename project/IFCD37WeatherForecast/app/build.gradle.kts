@@ -62,4 +62,7 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(libs.androidx.hilt.lifecycle.viewmodel.compose)
     ksp(libs.hilt.android.compiler)
+
+    // Modules
+    implementation(project(":app:application"))
 }
