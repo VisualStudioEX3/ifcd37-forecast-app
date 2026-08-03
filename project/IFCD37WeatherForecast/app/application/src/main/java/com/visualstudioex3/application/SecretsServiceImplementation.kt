@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 
-class SecretsServiceImplementation(
+internal class SecretsServiceImplementation(
     private val context: Context
 ): SecretsService {
     private val appInfo: ApplicationInfo = context.packageManager.getApplicationInfo(
