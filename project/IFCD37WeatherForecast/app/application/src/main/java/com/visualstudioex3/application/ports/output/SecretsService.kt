@@ -1,9 +1,10 @@
-package com.visualstudioex3.application
+package com.visualstudioex3.application.ports.output
 
 /**
  * Secrets service.
  */
-interface SecretsService {
+// TODO: Make internal this service contract when Weather Forecast service is implemented.
+/* internal */interface SecretsService {
     /**
      * Get [String] secret value.
      *
