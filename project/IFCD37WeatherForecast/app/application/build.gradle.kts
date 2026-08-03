@@ -1,5 +1,12 @@
 plugins {
     alias(libs.plugins.android.library)
+    id("com.google.devtools.ksp")
+
+    // Hilt
+    id("com.google.dagger.hilt.android")
+
+    // Secrets Gradle Plugin
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 android {
@@ -29,4 +36,21 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.junit)
+
+    // Hilt
+    implementation(libs.hilt.android)
+    implementation(libs.androidx.hilt.lifecycle.viewmodel.compose)
+    ksp(libs.hilt.android.compiler)
+}
+
+secrets {
+    propertiesFileName = "secrets.properties"
+    /*
+     * FYI: secrets.properties file is not showed on "Gradle Scripts" folder and neither on "app"
+     * folder when "Android" project view is active. Change view to "Project Files" to discover the
+     * file in the root level of project folder.
+     *
+     * The key bridge (the key-value reflected in runtime) is created as meta-data element in
+     * AndroidManifest.xml file.
+     */
 }
