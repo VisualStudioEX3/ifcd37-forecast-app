@@ -24,3 +24,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "IFCD37 Weather Forecast"
 include(":app")
+include(":app:application")
