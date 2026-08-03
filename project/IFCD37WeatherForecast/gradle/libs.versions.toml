@@ -18,6 +18,10 @@ hiltLifecycleViewmodelCompose = "1.4.0"
 
 # Secrets Gradle Plugin
 secretsGradlePlugin = "2.0.1"
+slf4jNop = "2.0.18"
+
+# Dataframe
+dataframeCore = "1.0.0-rc01"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -44,6 +48,12 @@ hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", ve
 
 # Secrets Gradle Plugin
 secrets-gradle-plugin = { module = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin", version.ref = "secretsGradlePlugin" }
+
+# Dataframe
+dataframe = { module = "org.jetbrains.kotlinx:dataframe", version.ref = "dataframeCore" }
+dataframe-core = { module = "org.jetbrains.kotlinx:dataframe-core", version.ref = "dataframeCore" }
+dataframe-excel = { module = "org.jetbrains.kotlinx:dataframe-excel", version.ref = "dataframeCore" }
+slf4j-nop = { module = "org.slf4j:slf4j-nop", version.ref = "slf4jNop" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
