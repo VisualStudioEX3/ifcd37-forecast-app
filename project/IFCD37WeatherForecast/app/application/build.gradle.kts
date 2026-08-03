@@ -40,6 +40,8 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(libs.androidx.hilt.lifecycle.viewmodel.compose)
     ksp(libs.hilt.android.compiler)
+
+    implementation(project(":app:adapter"))
 }
 
 secrets {
