@@ -4,8 +4,9 @@ import com.visualstudioex3.apdater.inedb.DataFrameExcelImporter
 import org.jetbrains.kotlinx.dataframe.DataFrame
 import org.jetbrains.kotlinx.dataframe.annotations.DataSchema
 import org.jetbrains.kotlinx.dataframe.api.firstOrNull
+import javax.inject.Inject
 
-class IneAutonomousCommunityRepositoryImplementation(
+class IneAutonomousCommunityRepositoryImplementation @Inject constructor(
     excelImporter: DataFrameExcelImporter
 ): IneAutonomousCommunityRepository {
     /** @suppress  */

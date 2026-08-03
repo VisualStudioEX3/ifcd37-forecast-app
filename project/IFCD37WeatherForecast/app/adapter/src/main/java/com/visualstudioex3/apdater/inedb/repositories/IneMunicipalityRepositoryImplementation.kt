@@ -6,8 +6,9 @@ import org.jetbrains.kotlinx.dataframe.DataFrame
 import org.jetbrains.kotlinx.dataframe.annotations.DataSchema
 import org.jetbrains.kotlinx.dataframe.api.filter
 import org.jetbrains.kotlinx.dataframe.api.map
+import javax.inject.Inject
 
-internal class IneMunicipalityRepositoryImplementation(
+internal class IneMunicipalityRepositoryImplementation @Inject constructor(
     excelImporter: DataFrameExcelImporter
 ): IneMunicipalityRepository {
     /** @suppress  */
