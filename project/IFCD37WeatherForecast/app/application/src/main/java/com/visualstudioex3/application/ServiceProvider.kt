@@ -1,6 +1,8 @@
 package com.visualstudioex3.application
 
 import android.content.Context
+import com.visualstudioex3.application.ports.output.SecretsService
+import com.visualstudioex3.application.ports.output.SecretsServiceImplementation
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,11 +19,11 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object ServiceProvider {
     /**
-     * [SecretsService] service provider.
+     * [com.visualstudioex3.application.ports.output.SecretsService] service provider.
      *
      * @param context [Context] instance. It's resolved by Hilt.
      *
-     * @return Returns a singleton instance of [SecretsService] service.
+     * @return Returns a singleton instance of [com.visualstudioex3.application.ports.output.SecretsService] service.
      */
     @Provides
     @Singleton

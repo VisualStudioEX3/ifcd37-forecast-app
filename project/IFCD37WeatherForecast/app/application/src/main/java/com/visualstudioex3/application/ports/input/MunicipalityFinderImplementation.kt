@@ -1,4 +1,4 @@
-package com.visualstudioex3.application
+package com.visualstudioex3.application.ports.input
 
 import com.visualstudioex3.apdater.inedb.repositories.IneAutonomousCommunityRepository
 import com.visualstudioex3.apdater.inedb.repositories.IneMunicipalityRepository

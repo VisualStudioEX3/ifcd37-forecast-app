@@ -1,5 +1,7 @@
 package com.visualstudioex3.application
 
+import com.visualstudioex3.application.ports.input.MunicipalityFinder
+import com.visualstudioex3.application.ports.input.MunicipalityFinderImplementation
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -16,11 +18,11 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 abstract class ServiceBinder {
     /**
-     * [MunicipalityFinderImplementation] service binder.
+     * [com.visualstudioex3.application.ports.input.MunicipalityFinderImplementation] service binder.
      *
      * @param impl The service implementation. It's resolved by Hilt.
      *
-     * @return Returns a singleton instance of [MunicipalityFinderImplementation] service.
+     * @return Returns a singleton instance of [com.visualstudioex3.application.ports.input.MunicipalityFinderImplementation] service.
      */
     @Binds
     @Singleton

@@ -15,8 +15,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import com.visualstudioex3.application.MunicipalityFinder
-import com.visualstudioex3.application.SecretsService
+import com.visualstudioex3.application.ports.input.MunicipalityFinder
+import com.visualstudioex3.application.ports.output.SecretsService
 import com.visualstudioex3.ifcd37weatherforecast.ui.theme.IFCD37WeatherForecastTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject

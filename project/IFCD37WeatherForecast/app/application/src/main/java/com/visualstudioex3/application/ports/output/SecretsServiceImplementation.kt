@@ -1,4 +1,4 @@
-package com.visualstudioex3.application
+package com.visualstudioex3.application.ports.output
 
 import android.content.Context
 import android.content.pm.ApplicationInfo
