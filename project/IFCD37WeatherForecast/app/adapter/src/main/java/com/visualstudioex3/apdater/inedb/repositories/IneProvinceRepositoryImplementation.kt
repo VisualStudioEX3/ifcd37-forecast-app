@@ -6,7 +6,7 @@ import org.jetbrains.kotlinx.dataframe.annotations.DataSchema
 import org.jetbrains.kotlinx.dataframe.api.firstOrNull
 import javax.inject.Inject
 
-class IneProvinceRepositoryImplementation @Inject constructor(
+internal class IneProvinceRepositoryImplementation @Inject constructor(
     excelImporter: DataFrameExcelImporter
 ): IneProvinceRepository {
     /** @suppress  */

@@ -24,7 +24,7 @@ abstract class ServiceBinder {
      */
     @Binds
     @Singleton
-    abstract fun bindMunicipalityFinder(
+    internal abstract fun bindMunicipalityFinder(
         impl: MunicipalityFinderImplementation
     ): MunicipalityFinder
 }
