@@ -22,7 +22,7 @@ internal class IneMunicipalityRepositoryImplementation(
     }
 
     private val municipalities: DataFrame<DataRowSchema> = excelImporter.importExcelAsDataFrame(
-        resourceName = "diccionario26.xlsx",
+        fileName = "diccionario26.xlsx",
         sheetName = "dic25",
         skipRows = 1,
         stringColumns = "C:D"

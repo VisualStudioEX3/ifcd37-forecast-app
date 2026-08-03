@@ -7,13 +7,13 @@ import org.jetbrains.kotlinx.dataframe.annotations.DataSchema
 /**
  * Dataframe importer for EXCEL files.
  */
-internal interface DataFrameExcelImporter {
+interface DataFrameExcelImporter {
     /**
      * Imports an EXCEL file as [DataFrame] object.
      *
      * @param TExcelRowSchema The [DataSchema] schema interface that defines the row structure in
      * the EXCEL sheet to import.
-     * @param resourceName Path to the resource XLS/XLSX file to import.
+     * @param fileName Filename of the XLS/XLSX asset to import.
      * @param sheetName Optional. EXCEL sheet name to import. Sets to null to import the first
      * sheet. By default is null.
      * @param skipRows The number of rows to skip before start to import.
@@ -24,12 +24,10 @@ internal interface DataFrameExcelImporter {
      *
      * @return Returns a [DataFrame]<[TExcelRowSchema]> object.
      *
-     * @throws DataFrameExcelImporterException Throws for one of the following inner exceptions:
-     * - [NoSuchElementException]: If resource [resourceName] not found.
-     * - Any derived [DataFrame] exceptions on EXCEL import operation.
+     * @throws DataFrameExcelImporterException Throws if failed to import the asset file.
      */
     fun <TExcelRowSchema> importExcelAsDataFrame(
-        resourceName: String,
+        fileName: String,
         sheetName: String? = null,
         skipRows: Int,
         stringColumns: String? = null

@@ -17,7 +17,7 @@ class IneAutonomousCommunityRepositoryImplementation(
     }
 
     private val provinces: DataFrame<DataRowSchema> = excelImporter.importExcelAsDataFrame(
-        resourceName = "codccaa.xls",
+        fileName = "codccaa.xls",
         sheetName = "Hoja1",
         skipRows = 1,
         stringColumns = "A"

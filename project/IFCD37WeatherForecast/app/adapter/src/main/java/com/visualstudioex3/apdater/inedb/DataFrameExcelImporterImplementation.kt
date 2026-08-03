@@ -1,6 +1,6 @@
 package com.visualstudioex3.apdater.inedb
 
-import com.visualstudioex3.apdater.ResourceUtils
+import android.content.Context
 import com.visualstudioex3.apdater.inedb.exceptions.DataFrameExcelImporterException
 import org.jetbrains.kotlinx.dataframe.DataFrame
 import org.jetbrains.kotlinx.dataframe.api.cast
@@ -8,11 +8,12 @@ import org.jetbrains.kotlinx.dataframe.api.filter
 import org.jetbrains.kotlinx.dataframe.io.StringColumns
 import org.jetbrains.kotlinx.dataframe.io.readExcel
 
-class DataFrameExcelImporterImplementation
-    : DataFrameExcelImporter
+internal class DataFrameExcelImporterImplementation(
+    val context: Context
+) : DataFrameExcelImporter
 {
     override fun <TExcelRowSchema> importExcelAsDataFrame(
-        resourceName: String,
+        fileName: String,
         sheetName: String?,
         skipRows: Int,
         stringColumns: String?
@@ -20,10 +21,7 @@ class DataFrameExcelImporterImplementation
         try {
             DataFrame
                 .readExcel(
-                    url = ResourceUtils.getResource(resourceName)
-                        ?: throw NoSuchElementException(
-                            "Resource with id '$resourceName' not found."
-                        ),
+                    inputStream = context.assets.open(fileName),
                     sheetName,
                     skipRows,
                     stringColumns = if (stringColumns != null)

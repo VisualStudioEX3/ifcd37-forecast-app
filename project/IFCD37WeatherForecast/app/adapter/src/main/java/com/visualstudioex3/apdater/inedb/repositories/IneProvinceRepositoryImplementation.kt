@@ -17,7 +17,7 @@ class IneProvinceRepositoryImplementation(
     }
 
     private val provinces: DataFrame<DataRowSchema> = excelImporter.importExcelAsDataFrame(
-        resourceName = "codprov.xls",
+        fileName = "codprov.xls",
         sheetName = "Hoja1",
         skipRows = 1,
         stringColumns = "A"
