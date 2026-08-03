@@ -40,6 +40,9 @@ android {
         compose = true
     }
     buildToolsVersion = "37.0.0"
+    packaging {
+        resources.excludes.add("META-INF/*")
+    }
 }
 
 dependencies {
