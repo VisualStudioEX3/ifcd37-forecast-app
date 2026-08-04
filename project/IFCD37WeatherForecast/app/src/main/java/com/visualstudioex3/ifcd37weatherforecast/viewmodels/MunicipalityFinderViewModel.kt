@@ -11,9 +11,9 @@ import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 /**
- * UI state for [MunicipalityFinderViewModel] view model.
+ * UI state for [MunicipalityFinderViewModel] viewmodel.
  *
- * @param searching Sets if the view model is performing the search process.
+ * @param searching Gets if the viewmodel is performing the search process.
  * @param municipalities The result of the search.
  */
 data class MunicipalityFinderUiState(
@@ -22,16 +22,29 @@ data class MunicipalityFinderUiState(
 )
 
 /**
- * Municipality finder view model.
+ * Municipality finder viewmodel.
+ *
+ * @param municipalityFinder [MunicipalityFinder] service. It's resolved by Hilt.
  */
 @HiltViewModel
 class MunicipalityFinderViewModel @Inject constructor(
     private val municipalityFinder: MunicipalityFinder
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(MunicipalityFinderUiState())
+
+    /**
+     * UI state for this viewmodel.
+     */
     val uiState: StateFlow<MunicipalityFinderUiState> = _uiState.asStateFlow()
 
-    fun find(name: String) {
+    /**
+     * Search municipality by the given name.
+     *
+     * The search can return multiple coincidences.
+     *
+     * @param name Name of the municipality to search. The value can be a full name or part of it.
+     */
+    fun searchMunicipality(name: String) {
         _uiState.update { currentState ->
             currentState.copy(
                 searching = true,

@@ -56,7 +56,7 @@ fun MunicipalityFinderScreen(
                 },
                 onSearch = {
                     if (query.isNotBlank()) {
-                        viewModel.find(query)
+                        viewModel.searchMunicipality(query)
                     }
                 },
                 searchResults = uiState.municipalities
