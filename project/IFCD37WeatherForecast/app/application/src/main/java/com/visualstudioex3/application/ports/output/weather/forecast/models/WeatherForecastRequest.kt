@@ -1,4 +1,4 @@
-package com.visualstudioex3.application.ports.input.weather.forecast.models
+package com.visualstudioex3.application.ports.output.weather.forecast.models
 
 import com.visualstudioex3.application.entities.MunicipalityData
 
@@ -8,7 +8,7 @@ import com.visualstudioex3.application.entities.MunicipalityData
  * @param apiKey AEMET OpenData API key.
  * @param municipality Municipality.
  */
-data class WeatherForecastRequest(
+internal data class WeatherForecastRequest(
     val apiKey: String,
     val municipality: MunicipalityData
 )

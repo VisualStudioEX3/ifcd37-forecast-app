@@ -3,8 +3,8 @@ package com.visualstudioex3.application.ports.input.weather.forecast
 import com.visualstudioex3.application.entities.MunicipalityData
 import com.visualstudioex3.application.entities.WeatherForecastData
 import com.visualstudioex3.application.exceptions.weather.forecast.WeatherForecastException
-import com.visualstudioex3.application.ports.input.weather.forecast.models.WeatherForecastRequest
-import com.visualstudioex3.application.ports.input.weather.forecast.usecases.WeatherForecastUseCase
+import com.visualstudioex3.application.ports.output.weather.forecast.models.WeatherForecastRequest
+import com.visualstudioex3.application.ports.output.weather.forecast.usecases.WeatherForecastUseCase
 import com.visualstudioex3.application.ports.output.SecretsService
 import javax.inject.Inject
 

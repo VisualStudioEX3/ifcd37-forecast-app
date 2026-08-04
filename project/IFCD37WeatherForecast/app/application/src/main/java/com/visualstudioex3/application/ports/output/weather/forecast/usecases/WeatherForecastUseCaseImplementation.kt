@@ -1,12 +1,10 @@
-package com.visualstudioex3.application.ports.input.weather.forecast.usecases
+package com.visualstudioex3.application.ports.output.weather.forecast.usecases
 
 import com.visualstudioex3.apdater.network.exceptions.TooManyRequestsHttpRequestException
 import com.visualstudioex3.application.entities.WeatherForecastData
 import com.visualstudioex3.application.ports.input.weather.forecast.models.DailyWeatherForecastData
 import com.visualstudioex3.application.ports.input.weather.forecast.models.HourlyWeatherForecastData
-import com.visualstudioex3.application.ports.input.weather.forecast.models.WeatherForecastRequest
-import com.visualstudioex3.application.ports.output.weather.forecast.usecases.DailyWeatherForecastUseCase
-import com.visualstudioex3.application.ports.output.weather.forecast.usecases.HourlyWeatherForecastUseCase
+import com.visualstudioex3.application.ports.output.weather.forecast.models.WeatherForecastRequest
 import kotlinx.coroutines.delay
 import javax.inject.Inject
 import kotlin.time.Duration

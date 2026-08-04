@@ -8,7 +8,7 @@ import com.visualstudioex3.application.ports.input.weather.forecast.models.Daily
 import com.visualstudioex3.application.ports.input.weather.forecast.models.MinMaxRelativeHumidityData
 import com.visualstudioex3.application.ports.input.weather.forecast.models.MinMaxTemperatureData
 import com.visualstudioex3.application.ports.input.weather.forecast.models.UvRadiationData
-import com.visualstudioex3.application.ports.input.weather.forecast.models.WeatherForecastRequest
+import com.visualstudioex3.application.ports.output.weather.forecast.models.WeatherForecastRequest
 import com.visualstudioex3.application.ports.input.weather.forecast.models.WindData
 import com.visualstudioex3.application.values.weather.forecast.SkyStates
 import com.visualstudioex3.application.values.weather.forecast.UvRadiationIndexSeverityLevels

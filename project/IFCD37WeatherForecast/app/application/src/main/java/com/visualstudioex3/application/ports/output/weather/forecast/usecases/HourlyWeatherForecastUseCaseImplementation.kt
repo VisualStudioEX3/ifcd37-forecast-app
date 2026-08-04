@@ -7,7 +7,7 @@ import com.visualstudioex3.apdater.aemet.weather.forecast.municipality.hourly.Ae
 import com.visualstudioex3.apdater.aemet.weather.forecast.municipality.models.AemetWindData
 import com.visualstudioex3.application.ports.input.weather.forecast.models.HourlyWeatherForecastData
 import com.visualstudioex3.application.ports.input.weather.forecast.models.HourlyWeatherForecastDataDetail
-import com.visualstudioex3.application.ports.input.weather.forecast.models.WeatherForecastRequest
+import com.visualstudioex3.application.ports.output.weather.forecast.models.WeatherForecastRequest
 import com.visualstudioex3.application.ports.input.weather.forecast.models.WindData
 import com.visualstudioex3.application.values.weather.forecast.SkyStates
 import com.visualstudioex3.application.values.weather.forecast.WindDirections

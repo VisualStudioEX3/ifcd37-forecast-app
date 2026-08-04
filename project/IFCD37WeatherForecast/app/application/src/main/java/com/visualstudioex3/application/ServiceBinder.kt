@@ -4,8 +4,8 @@ import com.visualstudioex3.application.ports.input.MunicipalityFinder
 import com.visualstudioex3.application.ports.input.MunicipalityFinderImplementation
 import com.visualstudioex3.application.ports.input.weather.forecast.WeatherForecastService
 import com.visualstudioex3.application.ports.input.weather.forecast.WeatherForecastServiceImplementation
-import com.visualstudioex3.application.ports.input.weather.forecast.usecases.WeatherForecastUseCase
-import com.visualstudioex3.application.ports.input.weather.forecast.usecases.WeatherForecastUseCaseImplementation
+import com.visualstudioex3.application.ports.output.weather.forecast.usecases.WeatherForecastUseCase
+import com.visualstudioex3.application.ports.output.weather.forecast.usecases.WeatherForecastUseCaseImplementation
 import com.visualstudioex3.application.ports.output.weather.forecast.usecases.DailyWeatherForecastUseCase
 import com.visualstudioex3.application.ports.output.weather.forecast.usecases.DailyWeatherForecastUseCaseImplementation
 import com.visualstudioex3.application.ports.output.weather.forecast.usecases.HourlyWeatherForecastUseCase
@@ -26,11 +26,11 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 abstract class ServiceBinder {
     /**
-     * [com.visualstudioex3.application.ports.input.MunicipalityFinderImplementation] service binder.
+     * [MunicipalityFinderImplementation] service binder.
      *
      * @param impl The service implementation. It's resolved by Hilt.
      *
-     * @return Returns a singleton instance of [com.visualstudioex3.application.ports.input.MunicipalityFinderImplementation] service.
+     * @return Returns a singleton instance of [MunicipalityFinderImplementation] service.
      */
     @Binds
     @Singleton
