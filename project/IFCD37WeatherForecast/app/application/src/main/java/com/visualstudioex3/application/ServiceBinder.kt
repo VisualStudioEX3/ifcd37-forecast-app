@@ -2,6 +2,8 @@ package com.visualstudioex3.application
 
 import com.visualstudioex3.application.ports.input.MunicipalityFinder
 import com.visualstudioex3.application.ports.input.MunicipalityFinderImplementation
+import com.visualstudioex3.application.ports.input.weather.forecast.WeatherForecastService
+import com.visualstudioex3.application.ports.input.weather.forecast.WeatherForecastServiceImplementation
 import com.visualstudioex3.application.ports.input.weather.forecast.usecases.WeatherForecastUseCase
 import com.visualstudioex3.application.ports.input.weather.forecast.usecases.WeatherForecastUseCaseImplementation
 import com.visualstudioex3.application.ports.output.weather.forecast.usecases.DailyWeatherForecastUseCase
@@ -71,4 +73,16 @@ abstract class ServiceBinder {
     internal abstract fun bindWeatherForecastUseCase(
         impl: WeatherForecastUseCaseImplementation
     ) : WeatherForecastUseCase
+
+    /**
+     * [WeatherForecastService] service binder.
+     *
+     * @param impl The service implementation. It's resolved by Hilt.
+     *
+     * @return Returns an instance of [WeatherForecastService] service.
+     */
+    @Binds
+    internal abstract fun bindWeatherForecastService(
+        impl: WeatherForecastServiceImplementation
+    ) : WeatherForecastService
 }
