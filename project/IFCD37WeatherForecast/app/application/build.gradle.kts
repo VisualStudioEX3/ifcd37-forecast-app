@@ -35,6 +35,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.junit)
+    implementation(libs.kotlinx.datetime)
 
     // Hilt
     implementation(libs.hilt.android)

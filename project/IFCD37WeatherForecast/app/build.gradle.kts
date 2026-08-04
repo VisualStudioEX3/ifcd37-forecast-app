@@ -60,6 +60,7 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
     debugImplementation(libs.androidx.compose.ui.tooling)
+    implementation(libs.kotlinx.datetime)
 
     // Hilt
     implementation(libs.hilt.android)
