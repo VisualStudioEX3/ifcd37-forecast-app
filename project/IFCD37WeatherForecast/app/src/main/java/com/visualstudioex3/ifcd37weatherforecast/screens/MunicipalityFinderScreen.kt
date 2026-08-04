@@ -25,10 +25,10 @@ import com.visualstudioex3.ifcd37weatherforecast.viewmodels.MunicipalityFinderVi
 import kotlinx.serialization.Serializable
 
 /**
- * Navigation target object for [MunicipalityFinderScreen] screen.
+ * Navigation route object for [MunicipalityFinderScreen] screen.
  */
 @Serializable
-object MunicipalityFinderNavigationTarget {
+object MunicipalityFinderNavigationRoute {
 }
 
 /**
