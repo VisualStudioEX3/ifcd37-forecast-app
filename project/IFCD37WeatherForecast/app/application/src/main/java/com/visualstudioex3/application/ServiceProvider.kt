@@ -17,7 +17,7 @@ import javax.inject.Singleton
  */
 @Module
 @InstallIn(SingletonComponent::class)
-object ServiceProvider {
+internal object ServiceProvider {
     /**
      * [com.visualstudioex3.application.ports.output.SecretsService] service provider.
      *
@@ -27,7 +27,7 @@ object ServiceProvider {
      */
     @Provides
     @Singleton
-    fun provideSecretsService(
+    internal fun provideSecretsService(
         @ApplicationContext context: Context
     ): SecretsService = SecretsServiceImplementation(context)
 }
