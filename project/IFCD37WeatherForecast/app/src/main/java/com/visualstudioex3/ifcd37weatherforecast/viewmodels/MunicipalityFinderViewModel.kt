@@ -61,4 +61,13 @@ class MunicipalityFinderViewModel @Inject constructor(
             )
         }
     }
+
+    /**
+     * Saves the user selection.
+     *
+     * @param municipality [Municipality] selected from view.
+     */
+    fun saveSelection(municipality: Municipality) {
+        // TODO: Resolve how to send this object to the next screen.
+    }
 }
