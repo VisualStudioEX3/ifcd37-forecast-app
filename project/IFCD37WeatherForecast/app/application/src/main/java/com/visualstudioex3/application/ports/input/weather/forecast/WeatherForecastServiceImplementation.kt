@@ -16,7 +16,7 @@ internal class WeatherForecastServiceImplementation @Inject constructor(
         municipality: Municipality
     ): WeatherForecast = try {
             useCase.invoke(WeatherForecastRequest(
-                    apiKey = secrets.getString("aemet_opendata_api_key")
+                    apiKey = secrets.getString("AEMET_API_KEY")
                         ?: error("AEMET API key not found!"),
                     municipality
                 )
