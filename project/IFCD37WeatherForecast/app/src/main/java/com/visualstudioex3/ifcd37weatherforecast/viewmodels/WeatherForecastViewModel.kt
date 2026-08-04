@@ -2,14 +2,18 @@ package com.visualstudioex3.ifcd37weatherforecast.viewmodels
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.visualstudioex3.application.entities.Municipality
 import com.visualstudioex3.application.entities.WeatherForecast
 import com.visualstudioex3.application.ports.input.weather.forecast.WeatherForecastService
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 /**
@@ -17,12 +21,12 @@ import javax.inject.Inject
  *
  * @param loading Gets if the viewmodel is loading requested weather forecast data.
  * @param weatherForecast The weather forecast data requested.
- * @param error Gets if the weather forecast request failed.
+ * @param success Gets if the weather forecast request failed.
  */
 data class WeatherForecastUiState(
     val loading: Boolean = false,
     val weatherForecast: WeatherForecast? = null,
-    val error: Boolean = false
+    val success: Boolean = false
 )
 
 /**
@@ -41,33 +45,47 @@ class WeatherForecastViewModel @Inject constructor(
      */
     val uiState: StateFlow<WeatherForecastUiState> = _uiState.asStateFlow()
 
+    init {
+        getWeatherForecast()
+    }
+
     /**
      * Gets the weather forecast for the given municipality.
-     *
-     * @param municipality Municipality for request the weather forecast.
      */
-    suspend fun getWeatherForecast(municipality: Municipality) {
-        var result: WeatherForecast? = null
-
-        _uiState.update { currentState ->
-            currentState.copy(
-                loading = true,
-                weatherForecast = null,
-                error = false
-            )
-        }
-
-        try {
-            result = weatherForecastService.getWeatherForecast(municipality)
-        } catch (e: Exception) {
-            Log.e("weather_forecast", "$e")
-        } finally {
-            _uiState.update { currentState ->
-                currentState.copy(
-                    loading = false,
-                    weatherForecast = result,
-                    error = result == null
+    fun getWeatherForecast() {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                // TODO: Resolve how to receive this object from the previous screen.
+                val municipality = Municipality(
+                    code = "28058",
+                    name = "Fuenlabrada",
+                    province = "Madrid",
+                    autonomousCommunity = "Madrid, Comunidad de"
                 )
+
+                var result: WeatherForecast? = null
+
+                _uiState.update { currentState ->
+                    currentState.copy(
+                        loading = true,
+                        weatherForecast = null,
+                        success = false
+                    )
+                }
+
+                try {
+                    result = weatherForecastService.getWeatherForecast(municipality)
+                } catch (e: Exception) {
+                    Log.e("weather_forecast", "$e")
+                } finally {
+                    _uiState.update { currentState ->
+                        currentState.copy(
+                            loading = false,
+                            weatherForecast = result,
+                            success = result != null
+                        )
+                    }
+                }
             }
         }
     }
