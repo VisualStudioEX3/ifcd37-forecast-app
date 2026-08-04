@@ -1,6 +1,6 @@
 package com.visualstudioex3.application.ports.input
 
-import com.visualstudioex3.application.models.MunicipalityData
+import com.visualstudioex3.application.entities.MunicipalityData
 
 /**
  * Municipality finder service.

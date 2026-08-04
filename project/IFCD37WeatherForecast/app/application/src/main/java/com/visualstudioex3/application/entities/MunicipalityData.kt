@@ -1,4 +1,4 @@
-package com.visualstudioex3.application.models
+package com.visualstudioex3.application.entities
 
 /**
  * Municipality data model.
@@ -6,12 +6,11 @@ package com.visualstudioex3.application.models
  * @param code Municipality code.
  * @param name Municipality name.
  * @param province Province name where the municipality belongs.
- * @param autnomousCommunity Autonomous Community name where the municipality belongs.
+ * @param autonomousCommunity Autonomous Community name where the municipality belongs.
  */
 data class MunicipalityData(
     val code: String,
     val name: String,
     val province: String,
-    val autnomousCommunity: String
-) {
-}
+    val autonomousCommunity: String
+)

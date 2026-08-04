@@ -3,7 +3,7 @@ package com.visualstudioex3.application.ports.input
 import com.visualstudioex3.apdater.inedb.repositories.IneAutonomousCommunityRepository
 import com.visualstudioex3.apdater.inedb.repositories.IneMunicipalityRepository
 import com.visualstudioex3.apdater.inedb.repositories.IneProvinceRepository
-import com.visualstudioex3.application.models.MunicipalityData
+import com.visualstudioex3.application.entities.MunicipalityData
 import javax.inject.Inject
 
 internal class MunicipalityFinderImplementation @Inject constructor(
@@ -18,7 +18,7 @@ internal class MunicipalityFinderImplementation @Inject constructor(
                     code = it.provinceCode + it.municipalityCode,
                     name = it.name,
                     province = ineProvinceRepository.getName(it.provinceCode),
-                    autnomousCommunity = ineAutonomousCommunityRepository.getName(it.autnomousCommunityCode)
+                    autonomousCommunity = ineAutonomousCommunityRepository.getName(it.autnomousCommunityCode)
                 )
             }
 }
