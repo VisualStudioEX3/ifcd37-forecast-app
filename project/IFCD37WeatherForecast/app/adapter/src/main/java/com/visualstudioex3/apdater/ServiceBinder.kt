@@ -1,5 +1,9 @@
 package com.visualstudioex3.apdater
 
+import com.visualstudioex3.apdater.aemet.weather.forecast.municipality.daily.AemetDailyWeatherForecastByMunicipalityRequest
+import com.visualstudioex3.apdater.aemet.weather.forecast.municipality.daily.AemetDailyWeatherForecastByMunicipalityRequestImplementation
+import com.visualstudioex3.apdater.aemet.weather.forecast.municipality.hourly.AemetHourlyWeatherForecastByMunicipalityRequest
+import com.visualstudioex3.apdater.aemet.weather.forecast.municipality.hourly.AemetHourlyWeatherForecastByMunicipalityRequestImplementation
 import com.visualstudioex3.apdater.inedb.repositories.IneAutonomousCommunityRepository
 import com.visualstudioex3.apdater.inedb.repositories.IneAutonomousCommunityRepositoryImplementation
 import com.visualstudioex3.apdater.inedb.repositories.IneMunicipalityRepository
@@ -59,4 +63,26 @@ abstract class ServiceBinder {
     internal abstract fun bindIneAutonomousCommunityRepository(
         impl: IneAutonomousCommunityRepositoryImplementation
     ): IneAutonomousCommunityRepository
+
+    /**
+     * [AemetDailyWeatherForecastByMunicipalityRequest] service binder.
+     * @param impl The service implementation. It's resolved by Hilt.
+     *
+     * @return Returns an instance of [AemetDailyWeatherForecastByMunicipalityRequest] service.
+     */
+    @Binds
+    internal abstract fun bindAemetDailyWeatherForecastByMunicipalityRequest(
+        impl: AemetDailyWeatherForecastByMunicipalityRequestImplementation
+    ): AemetDailyWeatherForecastByMunicipalityRequest
+
+    /**
+     * [AemetHourlyWeatherForecastByMunicipalityRequest] service binder.
+     * @param impl The service implementation. It's resolved by Hilt.
+     *
+     * @return Returns an instance of [AemetHourlyWeatherForecastByMunicipalityRequest] service.
+     */
+    @Binds
+    internal abstract fun bindAemetHourlyWeatherForecastByMunicipalityRequest(
+        impl: AemetHourlyWeatherForecastByMunicipalityRequestImplementation
+    ): AemetHourlyWeatherForecastByMunicipalityRequest
 }

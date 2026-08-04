@@ -7,6 +7,9 @@ plugins {
 
     // Dataframe
     kotlin("plugin.dataframe") version "2.4.10"
+
+    // Serialization
+    kotlin("plugin.serialization") version "2.4.10"
 }
 
 android {
@@ -33,6 +36,7 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(libs.androidx.hilt.lifecycle.viewmodel.compose)
     ksp(libs.hilt.android.compiler)
+    implementation(libs.kotlinx.coroutines.core)
 
     // Dataframe
     implementation(libs.dataframe)
@@ -51,6 +55,14 @@ dependencies {
      * https://youtrack.jetbrains.com/projects/KTNB/issues/KTNB-1198/Log4j-reports-no-logger-dependency-when-dataframe-excel-is-used
      */
     implementation(libs.slf4j.nop)
+
+    // Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.converter.scalars)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.retrofit2.kotlinx.serialization.converter)
+    implementation(libs.okhttp)
+    implementation(libs.kotlinx.datetime)
 }
 
 kotlin {

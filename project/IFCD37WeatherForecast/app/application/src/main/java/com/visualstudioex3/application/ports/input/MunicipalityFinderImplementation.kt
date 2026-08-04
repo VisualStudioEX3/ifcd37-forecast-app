@@ -3,7 +3,7 @@ package com.visualstudioex3.application.ports.input
 import com.visualstudioex3.apdater.inedb.repositories.IneAutonomousCommunityRepository
 import com.visualstudioex3.apdater.inedb.repositories.IneMunicipalityRepository
 import com.visualstudioex3.apdater.inedb.repositories.IneProvinceRepository
-import com.visualstudioex3.application.models.MunicipalityData
+import com.visualstudioex3.application.entities.Municipality
 import javax.inject.Inject
 
 internal class MunicipalityFinderImplementation @Inject constructor(
@@ -11,14 +11,14 @@ internal class MunicipalityFinderImplementation @Inject constructor(
     val ineProvinceRepository: IneProvinceRepository,
     val ineAutonomousCommunityRepository: IneAutonomousCommunityRepository
 ) : MunicipalityFinder {
-    override fun findMunicipalities(name: String): List<MunicipalityData> =
+    override fun findMunicipalities(name: String): List<Municipality> =
         ineMunicipalityRepository.findByName(name)
             .map {
-                MunicipalityData(
+                Municipality(
                     code = it.provinceCode + it.municipalityCode,
                     name = it.name,
                     province = ineProvinceRepository.getName(it.provinceCode),
-                    autnomousCommunity = ineAutonomousCommunityRepository.getName(it.autnomousCommunityCode)
+                    autonomousCommunity = ineAutonomousCommunityRepository.getName(it.autnomousCommunityCode)
                 )
             }
 }
