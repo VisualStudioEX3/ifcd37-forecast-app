@@ -1,7 +1,7 @@
 package com.visualstudioex3.application.ports.input.weather.forecast
 
-import com.visualstudioex3.application.entities.MunicipalityData
-import com.visualstudioex3.application.entities.WeatherForecastData
+import com.visualstudioex3.application.entities.Municipality
+import com.visualstudioex3.application.entities.WeatherForecast
 
 /**
  * Weather forecast service.
@@ -12,9 +12,9 @@ interface WeatherForecastService {
      *
      * @param municipality The location to request the weather forecast.
      *
-     * @return Returns a [WeatherForecastData] object.
+     * @return Returns a [WeatherForecast] object.
      */
     suspend fun getWeatherForecast(
-        municipality: MunicipalityData
-    ): WeatherForecastData
+        municipality: Municipality
+    ): WeatherForecast
 }

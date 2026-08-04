@@ -1,7 +1,7 @@
 package com.visualstudioex3.application.ports.input.weather.forecast
 
-import com.visualstudioex3.application.entities.MunicipalityData
-import com.visualstudioex3.application.entities.WeatherForecastData
+import com.visualstudioex3.application.entities.Municipality
+import com.visualstudioex3.application.entities.WeatherForecast
 import com.visualstudioex3.application.exceptions.weather.forecast.WeatherForecastException
 import com.visualstudioex3.application.ports.output.weather.forecast.models.WeatherForecastRequest
 import com.visualstudioex3.application.ports.output.weather.forecast.usecases.WeatherForecastUseCase
@@ -13,8 +13,8 @@ internal class WeatherForecastServiceImplementation @Inject constructor(
     val useCase: WeatherForecastUseCase
 ) : WeatherForecastService {
     override suspend fun getWeatherForecast(
-        municipality: MunicipalityData
-    ): WeatherForecastData = try {
+        municipality: Municipality
+    ): WeatherForecast = try {
             useCase.invoke(WeatherForecastRequest(
                     apiKey = secrets.getString("aemet_opendata_api_key")
                         ?: error("AEMET API key not found!"),

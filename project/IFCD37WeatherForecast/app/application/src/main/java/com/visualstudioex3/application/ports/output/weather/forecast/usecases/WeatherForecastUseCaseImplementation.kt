@@ -1,7 +1,7 @@
 package com.visualstudioex3.application.ports.output.weather.forecast.usecases
 
 import com.visualstudioex3.apdater.network.exceptions.TooManyRequestsHttpRequestException
-import com.visualstudioex3.application.entities.WeatherForecastData
+import com.visualstudioex3.application.entities.WeatherForecast
 import com.visualstudioex3.application.ports.input.weather.forecast.models.DailyWeatherForecastData
 import com.visualstudioex3.application.ports.input.weather.forecast.models.HourlyWeatherForecastData
 import com.visualstudioex3.application.ports.output.weather.forecast.models.WeatherForecastRequest
@@ -20,7 +20,7 @@ internal class WeatherForecastUseCaseImplementation @Inject constructor(
 
     override suspend fun invoke(
         request: WeatherForecastRequest
-    ) = WeatherForecastData(
+    ) = WeatherForecast(
         request.municipality,
         daily = tryRequestDailyForecast(request),
         hourly = tryRequestHourlyForecast(request)

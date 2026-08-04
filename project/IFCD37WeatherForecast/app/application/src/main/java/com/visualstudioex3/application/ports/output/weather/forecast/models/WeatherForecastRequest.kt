@@ -1,6 +1,6 @@
 package com.visualstudioex3.application.ports.output.weather.forecast.models
 
-import com.visualstudioex3.application.entities.MunicipalityData
+import com.visualstudioex3.application.entities.Municipality
 
 /**
  * Forecast request model.
@@ -10,5 +10,5 @@ import com.visualstudioex3.application.entities.MunicipalityData
  */
 internal data class WeatherForecastRequest(
     val apiKey: String,
-    val municipality: MunicipalityData
+    val municipality: Municipality
 )

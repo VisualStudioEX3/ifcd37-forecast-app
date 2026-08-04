@@ -4,14 +4,14 @@ import com.visualstudioex3.application.ports.input.weather.forecast.models.Daily
 import com.visualstudioex3.application.ports.input.weather.forecast.models.HourlyWeatherForecastData
 
 /**
- * Weather forecast data model.
+ * Weather forecast entity model.
  *
  * @param municipality Weather Forecast for municipality.
  * @param daily Daily weather forecast data.
  * @param hourly Hourly weather forecast data.
  */
-data class WeatherForecastData(
-    val municipality: MunicipalityData,
+data class WeatherForecast(
+    val municipality: Municipality,
     val daily: List<DailyWeatherForecastData>,
     val hourly: List<HourlyWeatherForecastData>
 )
