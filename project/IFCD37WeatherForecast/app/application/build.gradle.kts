@@ -7,6 +7,9 @@ plugins {
 
     // Secrets Gradle Plugin
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
+
+    // Serialization
+    kotlin("plugin.serialization") version "2.4.10"
 }
 
 android {
