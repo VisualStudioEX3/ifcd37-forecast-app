@@ -6,7 +6,7 @@ package com.visualstudioex3.apdater.aemet
  * @param TRequestBody Request parameters model type.
  * @param TResponse Response model type.
  */
-internal interface AemetOpenDataRequest<TRequestBody, TResponse> {
+interface AemetOpenDataRequest<TRequestBody, TResponse> {
     /**
      * Invokes the request.
      *
