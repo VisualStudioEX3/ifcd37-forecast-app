@@ -34,9 +34,9 @@ internal class AemetDailyWeatherForecastByMunicipalityRequestImplementation @Inj
         } catch (e: HttpException) {
             throw when (e.code()) {
                 401 -> UnauthorizedHttpRequestException()
-                403 -> ForbiddenHttpRequestException(e.message())
-                404 -> NotFoundHttpRequestException(e.message())
-                429 -> TooManyRequestsHttpRequestException(e.message())
+                403 -> ForbiddenHttpRequestException()
+                404 -> NotFoundHttpRequestException()
+                429 -> TooManyRequestsHttpRequestException()
                 else -> HttpRequestException(e.code(), e.message())
             }
         }
