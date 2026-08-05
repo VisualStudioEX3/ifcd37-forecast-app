@@ -33,7 +33,6 @@ fun SkyStateWidget(
     ) {
         Column(
             Modifier
-                .fillMaxSize()
                 .padding(vertical = 20.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
