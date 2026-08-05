@@ -35,7 +35,7 @@ fun MunicipalityWidget(
     ) {
         Icon(
             Icons.Default.LocationOn,
-            contentDescription = "Search",
+            contentDescription = "Location On",
             Modifier.size(48.dp)
         )
         Spacer(Modifier.width(4.dp))
