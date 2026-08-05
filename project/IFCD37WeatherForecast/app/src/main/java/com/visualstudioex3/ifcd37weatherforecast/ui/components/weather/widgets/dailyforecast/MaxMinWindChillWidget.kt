@@ -1,4 +1,4 @@
-package com.visualstudioex3.ifcd37weatherforecast.ui.components.weather.dailyforecast
+package com.visualstudioex3.ifcd37weatherforecast.ui.components.weather.widgets.dailyforecast
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,7 +17,7 @@ import com.visualstudioex3.application.ports.input.weather.forecast.models.Daily
 import com.visualstudioex3.application.ports.input.weather.forecast.models.MinMaxTemperatureData
 
 @Composable
-fun WindChillWidget(
+fun MaxMinWindChillWidget(
     weatherForecast: DailyWeatherForecastData
 ) {
     val windChill: MinMaxTemperatureData = weatherForecast.windChill

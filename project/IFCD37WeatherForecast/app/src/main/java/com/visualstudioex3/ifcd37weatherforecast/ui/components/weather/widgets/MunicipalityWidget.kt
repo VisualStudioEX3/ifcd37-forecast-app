@@ -1,4 +1,4 @@
-package com.visualstudioex3.ifcd37weatherforecast.ui.components.weather
+package com.visualstudioex3.ifcd37weatherforecast.ui.components.weather.widgets
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

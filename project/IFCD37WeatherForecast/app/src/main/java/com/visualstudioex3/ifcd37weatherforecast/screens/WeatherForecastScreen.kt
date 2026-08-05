@@ -22,15 +22,15 @@ import androidx.navigation.NavHostController
 import com.visualstudioex3.application.ports.input.weather.forecast.models.DailyWeatherForecastData
 import com.visualstudioex3.ifcd37weatherforecast.ui.components.AnimatedCircularProgress
 import com.visualstudioex3.ifcd37weatherforecast.ui.components.HeaderTitle
-import com.visualstudioex3.ifcd37weatherforecast.ui.components.weather.MunicipalityWidget
-import com.visualstudioex3.ifcd37weatherforecast.ui.components.weather.SkyStateWidget
-import com.visualstudioex3.ifcd37weatherforecast.ui.components.weather.dailyforecast.ForecastDateWidget
-import com.visualstudioex3.ifcd37weatherforecast.ui.components.weather.dailyforecast.RainProbabilityWidget
-import com.visualstudioex3.ifcd37weatherforecast.ui.components.weather.dailyforecast.RelativeHumidityWidget
-import com.visualstudioex3.ifcd37weatherforecast.ui.components.weather.dailyforecast.TemperatureWidget
-import com.visualstudioex3.ifcd37weatherforecast.ui.components.weather.dailyforecast.UvMaxRadiationWidget
-import com.visualstudioex3.ifcd37weatherforecast.ui.components.weather.dailyforecast.WindChillWidget
-import com.visualstudioex3.ifcd37weatherforecast.ui.components.weather.dailyforecast.WindStateWidget
+import com.visualstudioex3.ifcd37weatherforecast.ui.components.weather.widgets.MunicipalityWidget
+import com.visualstudioex3.ifcd37weatherforecast.ui.components.weather.widgets.SkyStateWidget
+import com.visualstudioex3.ifcd37weatherforecast.ui.components.weather.widgets.WindStateWidget
+import com.visualstudioex3.ifcd37weatherforecast.ui.components.weather.widgets.dailyforecast.ForecastDateWidget
+import com.visualstudioex3.ifcd37weatherforecast.ui.components.weather.widgets.dailyforecast.MaxMinRelativeHumidityWidget
+import com.visualstudioex3.ifcd37weatherforecast.ui.components.weather.widgets.dailyforecast.MaxMinTemperatureWidget
+import com.visualstudioex3.ifcd37weatherforecast.ui.components.weather.widgets.dailyforecast.MaxMinWindChillWidget
+import com.visualstudioex3.ifcd37weatherforecast.ui.components.weather.widgets.dailyforecast.RainProbabilityWidget
+import com.visualstudioex3.ifcd37weatherforecast.ui.components.weather.widgets.dailyforecast.UvMaxRadiationWidget
 import com.visualstudioex3.ifcd37weatherforecast.viewmodels.WeatherForecastUiState
 import com.visualstudioex3.ifcd37weatherforecast.viewmodels.WeatherForecastViewModel
 
@@ -67,7 +67,7 @@ fun WeatherForecastScreen(
                 ) {
                     ForecastDateWidget(today)
                     Spacer(Modifier.width(16.dp))
-                    TemperatureWidget(today)
+                    MaxMinTemperatureWidget(today)
                 }
                 Spacer(Modifier.height(16.dp))
                 Card(
@@ -88,7 +88,7 @@ fun WeatherForecastScreen(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             RainProbabilityWidget(today)
-                            WindChillWidget(today)
+                            MaxMinWindChillWidget(today)
                             WindStateWidget(today)
                         }
                         Spacer(Modifier.height(16.dp))
@@ -100,7 +100,7 @@ fun WeatherForecastScreen(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             UvMaxRadiationWidget(today)
-                            RelativeHumidityWidget(today)
+                            MaxMinRelativeHumidityWidget(today)
                         }
                     }
                 }
