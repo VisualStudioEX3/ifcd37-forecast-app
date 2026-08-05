@@ -7,8 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.visualstudioex3.application.entities.Municipality
 import com.visualstudioex3.application.entities.WeatherForecast
 import com.visualstudioex3.application.ports.input.weather.forecast.WeatherForecastService
-import com.visualstudioex3.ifcd37weatherforecast.navigation.NavigationRoutes
-import com.visualstudioex3.ifcd37weatherforecast.utils.SavedStateHandleExtensions.get
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

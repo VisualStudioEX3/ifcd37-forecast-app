@@ -12,13 +12,6 @@ import androidx.navigation.NavHostController
 import com.visualstudioex3.ifcd37weatherforecast.ui.components.HeaderTitle
 import com.visualstudioex3.ifcd37weatherforecast.viewmodels.WeatherForecastUiState
 import com.visualstudioex3.ifcd37weatherforecast.viewmodels.WeatherForecastViewModel
-import kotlinx.serialization.Serializable
-
-/**
- * Navigation route object for [WeatherForecastNavigationRoute] screen.
- */
-@Serializable
-object WeatherForecastNavigationRoute
 
 /**
  * Weather forecast screen.

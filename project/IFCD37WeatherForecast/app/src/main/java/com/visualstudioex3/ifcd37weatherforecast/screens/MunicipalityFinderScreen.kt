@@ -24,14 +24,6 @@ import com.visualstudioex3.ifcd37weatherforecast.ui.components.CustomizableSearc
 import com.visualstudioex3.ifcd37weatherforecast.ui.components.HeaderTitle
 import com.visualstudioex3.ifcd37weatherforecast.viewmodels.MunicipalityFinderUiState
 import com.visualstudioex3.ifcd37weatherforecast.viewmodels.MunicipalityFinderViewModel
-import kotlinx.serialization.Serializable
-
-/**
- * Navigation route object for [MunicipalityFinderScreen] screen.
- */
-@Serializable
-object MunicipalityFinderNavigationRoute {
-}
 
 /**
  * Municipality finder screen.
