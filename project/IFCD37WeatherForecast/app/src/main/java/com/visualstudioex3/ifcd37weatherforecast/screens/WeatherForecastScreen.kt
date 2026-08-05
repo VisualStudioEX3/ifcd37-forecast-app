@@ -6,7 +6,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -22,7 +25,12 @@ import com.visualstudioex3.ifcd37weatherforecast.ui.components.HeaderTitle
 import com.visualstudioex3.ifcd37weatherforecast.ui.components.weather.MunicipalityWidget
 import com.visualstudioex3.ifcd37weatherforecast.ui.components.weather.SkyStateWidget
 import com.visualstudioex3.ifcd37weatherforecast.ui.components.weather.dailyforecast.ForecastDateWidget
+import com.visualstudioex3.ifcd37weatherforecast.ui.components.weather.dailyforecast.RainProbabilityWidget
+import com.visualstudioex3.ifcd37weatherforecast.ui.components.weather.dailyforecast.RelativeHumidityWidget
 import com.visualstudioex3.ifcd37weatherforecast.ui.components.weather.dailyforecast.TemperatureWidget
+import com.visualstudioex3.ifcd37weatherforecast.ui.components.weather.dailyforecast.UvMaxRadiationWidget
+import com.visualstudioex3.ifcd37weatherforecast.ui.components.weather.dailyforecast.WindChillWidget
+import com.visualstudioex3.ifcd37weatherforecast.ui.components.weather.dailyforecast.WindStateWidget
 import com.visualstudioex3.ifcd37weatherforecast.viewmodels.WeatherForecastUiState
 import com.visualstudioex3.ifcd37weatherforecast.viewmodels.WeatherForecastViewModel
 
@@ -52,7 +60,6 @@ fun WeatherForecastScreen(
                 val today: DailyWeatherForecastData = uiState.weatherForecast!!.daily.first()
 
                 SkyStateWidget(today)
-
                 Row(
                     Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.Absolute.Center,
@@ -61,6 +68,41 @@ fun WeatherForecastScreen(
                     ForecastDateWidget(today)
                     Spacer(Modifier.width(16.dp))
                     TemperatureWidget(today)
+                }
+                Spacer(Modifier.height(16.dp))
+                Card(
+                    Modifier.fillMaxWidth()
+                ) {
+                    Column(
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        verticalArrangement = Arrangement.SpaceAround,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(
+                                64.dp,
+                                alignment = Alignment.CenterHorizontally
+                            ),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            RainProbabilityWidget(today)
+                            WindChillWidget(today)
+                            WindStateWidget(today)
+                        }
+                        Spacer(Modifier.height(16.dp))
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(
+                                64.dp,
+                                alignment = Alignment.CenterHorizontally
+                            ),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            UvMaxRadiationWidget(today)
+                            RelativeHumidityWidget(today)
+                        }
+                    }
                 }
             } else {
                 Text("Error!")
