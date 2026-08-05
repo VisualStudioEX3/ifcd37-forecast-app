@@ -1,5 +1,6 @@
 package com.visualstudioex3.ifcd37weatherforecast.screens
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -18,6 +19,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.visualstudioex3.application.entities.Municipality
+import com.visualstudioex3.ifcd37weatherforecast.navigation.NavigationRoutes
 import com.visualstudioex3.ifcd37weatherforecast.ui.components.CustomizableSearchBar
 import com.visualstudioex3.ifcd37weatherforecast.ui.components.HeaderTitle
 import com.visualstudioex3.ifcd37weatherforecast.viewmodels.MunicipalityFinderUiState
@@ -67,8 +69,13 @@ fun MunicipalityFinderScreen(
                 onResultClick = { index, _ ->
                     val municipality: Municipality = uiState.municipalities[index]
 
-                    viewModel.saveSelection(municipality)
-                    navController.navigate(WeatherForecastNavigationRoute)
+                    Log.d("municipality_search", "Selected municipality: " +
+                            "(${municipality.code}) - ${municipality.name} " +
+                            "(${municipality.province}, ${municipality.autonomousCommunity})")
+
+                    navController.navigate(
+                        NavigationRoutes.WeatherForecastRoute(municipality)
+                    )
                 },
                 trailingIcon = {
                     if (query.isNotEmpty()) {

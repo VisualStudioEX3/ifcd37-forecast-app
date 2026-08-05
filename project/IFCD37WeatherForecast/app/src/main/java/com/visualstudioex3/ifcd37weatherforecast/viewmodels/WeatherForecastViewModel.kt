@@ -1,11 +1,14 @@
 package com.visualstudioex3.ifcd37weatherforecast.viewmodels
 
 import android.util.Log
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.visualstudioex3.application.entities.Municipality
 import com.visualstudioex3.application.entities.WeatherForecast
 import com.visualstudioex3.application.ports.input.weather.forecast.WeatherForecastService
+import com.visualstudioex3.ifcd37weatherforecast.navigation.NavigationRoutes
+import com.visualstudioex3.ifcd37weatherforecast.utils.SavedStateHandleExtensions.get
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -36,6 +39,7 @@ data class WeatherForecastUiState(
  */
 @HiltViewModel
 class WeatherForecastViewModel @Inject constructor(
+    private val savedStateHandle: SavedStateHandle,
     private val weatherForecastService: WeatherForecastService
 ): ViewModel() {
     private val _uiState = MutableStateFlow(WeatherForecastUiState())
@@ -46,23 +50,20 @@ class WeatherForecastViewModel @Inject constructor(
     val uiState: StateFlow<WeatherForecastUiState> = _uiState.asStateFlow()
 
     init {
-        getWeatherForecast()
+        val municipality = savedStateHandle.get<Municipality>("municipality")
+            ?: error("Expected Municipality object from SavedStateHandle.")
+
+        getWeatherForecast(municipality)
     }
 
     /**
      * Gets the weather forecast for the given municipality.
      */
-    fun getWeatherForecast() {
+    fun getWeatherForecast(
+        municipality: Municipality
+    ) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                // TODO: Resolve how to receive this object from the previous screen.
-                val municipality = Municipality(
-                    code = "28058",
-                    name = "Fuenlabrada",
-                    province = "Madrid",
-                    autonomousCommunity = "Madrid, Comunidad de"
-                )
-
                 var result: WeatherForecast? = null
 
                 _uiState.update { currentState ->

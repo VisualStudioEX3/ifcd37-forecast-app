@@ -7,10 +7,11 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.visualstudioex3.ifcd37weatherforecast.screens.MunicipalityFinderNavigationRoute
+import com.visualstudioex3.application.entities.Municipality
+import com.visualstudioex3.ifcd37weatherforecast.navigation.NavigationUtils.navType
 import com.visualstudioex3.ifcd37weatherforecast.screens.MunicipalityFinderScreen
-import com.visualstudioex3.ifcd37weatherforecast.screens.WeatherForecastNavigationRoute
 import com.visualstudioex3.ifcd37weatherforecast.screens.WeatherForecastScreen
+import kotlin.reflect.typeOf
 
 /**
  * Navigation manager.
@@ -25,13 +26,17 @@ fun NavigationManager(
 ) {
     NavHost(
         navController,
-        startDestination = MunicipalityFinderNavigationRoute,
+        startDestination = NavigationRoutes.MunicipalitySearchRoute,
         modifier = modifier.padding(16.dp)
     ) {
-        composable<MunicipalityFinderNavigationRoute> {
+        composable<NavigationRoutes.MunicipalitySearchRoute> {
             MunicipalityFinderScreen(navController)
         }
-        composable<WeatherForecastNavigationRoute> {
+        composable<NavigationRoutes.WeatherForecastRoute>(
+            typeMap = mapOf(
+                typeOf<Municipality>() to navType<Municipality>()
+            )
+        ) {
             WeatherForecastScreen(navController)
         }
     }

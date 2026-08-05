@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     id("com.google.devtools.ksp")
+    id("org.jetbrains.kotlin.plugin.parcelize")
 
     // Hilt
     id("com.google.dagger.hilt.android")
