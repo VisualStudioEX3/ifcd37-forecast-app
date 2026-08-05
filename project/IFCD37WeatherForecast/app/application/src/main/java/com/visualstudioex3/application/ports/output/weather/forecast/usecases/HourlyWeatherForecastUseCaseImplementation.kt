@@ -92,7 +92,7 @@ internal class HourlyWeatherForecastUseCaseImplementation @Inject constructor(
     private fun extractRain(
         hour: Int,
         data: AemetHourlyWeatherForecastByMunicipalityDataDetail
-    ): Int = data.rain.first {
+    ): Float = data.rain.first {
         it.period.toInt() == hour
     }.value
 

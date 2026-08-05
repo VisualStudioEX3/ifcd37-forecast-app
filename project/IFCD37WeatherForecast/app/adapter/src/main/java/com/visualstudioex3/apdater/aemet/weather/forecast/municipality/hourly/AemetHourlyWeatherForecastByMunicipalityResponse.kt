@@ -9,6 +9,7 @@ import com.visualstudioex3.apdater.aemet.weather.forecast.municipality.models.Ae
 import com.visualstudioex3.apdater.aemet.weather.forecast.municipality.models.AemetTemperaturePeriodData
 import com.visualstudioex3.apdater.aemet.weather.forecast.municipality.models.AemetWindAndMaxWindGustData
 import com.visualstudioex3.apdater.aemet.weather.forecast.municipality.AemetWeatherForecastByMunicipalityResponse
+import com.visualstudioex3.apdater.aemet.weather.forecast.municipality.models.AemetRainProbabilityData
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.LocalTime
 import kotlinx.serialization.SerialName
@@ -76,7 +77,7 @@ data class AemetHourlyWeatherForecastByMunicipalityDataDetail(
      * Rain probability data.
      */
     @SerialName("probPrecipitacion")
-    val rainProbability: List<AemetRainData>,
+    val rainProbability: List<AemetRainProbabilityData>,
 
     /**
      * Storm probability data.

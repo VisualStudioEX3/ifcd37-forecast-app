@@ -44,7 +44,7 @@ data class HourlyWeatherForecastDataDetail(
      *
      * @return Returns a value in mm.
      */
-    val rain: Int,
+    val rain: Float,
 
     /**
      * Wind chill.
